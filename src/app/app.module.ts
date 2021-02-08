@@ -11,12 +11,16 @@ import { ResetPasswordComponent } from './views/auth/reset-password/reset-passwo
 import { BeneficiaireComponent } from './views/_fields/beneficiaire/beneficiaire.component';
 import { FinancementComponent } from './views/_fields/financement/financement.component';
 import { PartenairesComponent } from './views/_fields/partenaires/partenaires.component';
-import { ProjectComponent } from './views/_fields/project/project.component';
+import { ProjectComponent } from './views/_fields/project-management/list-project/project.component';
 import { RapportComponent } from './views/_fields/rapport/rapport.component';
 import { TacheronsComponent } from './views/_fields/tacherons/tacherons.component';
 import { BaseComponent } from './views/layouts/base/base.component';
 import { FooterComponent } from './views/layouts/footer/footer.component';
 import { SidebarComponent } from './views/layouts/sidebar/sidebar.component';
+import { MaterialModule } from './core/modules/material.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { TypeProjectComponent } from './views/_fields/project-management/type-project/type-project.component';
+import { ViewProjectComponent } from './views/_fields/project-management/view-project/view-project.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +32,8 @@ import { SidebarComponent } from './views/layouts/sidebar/sidebar.component';
     FinancementComponent,
     PartenairesComponent,
     ProjectComponent,
+    TypeProjectComponent,
+    ViewProjectComponent,
     RapportComponent,
     TacheronsComponent,
     BaseComponent,
@@ -38,9 +44,12 @@ import { SidebarComponent } from './views/layouts/sidebar/sidebar.component';
     BrowserModule,
     RouterModule.forRoot(routes),
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MaterialModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
+
 export class AppModule { }

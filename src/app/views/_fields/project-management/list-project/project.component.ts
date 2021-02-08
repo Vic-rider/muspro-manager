@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-
+import {AfterViewInit, Component, ViewChild, OnInit} from '@angular/core';
 @Component({
   selector: 'app-project',
   templateUrl: './project.component.html',
 })
-export class ProjectComponent implements OnInit {
+
+export class ProjectComponent implements OnInit  {
 
   constructor() { }
 
@@ -12,3 +12,5 @@ export class ProjectComponent implements OnInit {
   }
 
 }
+
+

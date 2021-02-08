@@ -5,14 +5,15 @@ import { ResetPasswordComponent } from "./views/auth/reset-password/reset-passwo
 import { BeneficiaireComponent } from "./views/_fields/beneficiaire/beneficiaire.component";
 import { FinancementComponent } from "./views/_fields/financement/financement.component";
 import { PartenairesComponent } from "./views/_fields/partenaires/partenaires.component";
-import { ProjectComponent } from "./views/_fields/project/project.component";
+import { ProjectComponent } from  './views/_fields/project-management/list-project/project.component';
 import { RapportComponent } from "./views/_fields/rapport/rapport.component";
 import { TacheronsComponent } from "./views/_fields/tacherons/tacherons.component";
 import { BaseComponent } from "./views/layouts/base/base.component";
+import { TypeProjectComponent } from "./views/_fields/project-management/type-project/type-project.component";
 
 
 export const routes: Routes = [
-  { 
+  {
     path: '',
     component: BaseComponent,
     children: [
@@ -21,11 +22,12 @@ export const routes: Routes = [
       { path: 'financements', component: FinancementComponent },
       { path: 'partenaires', component: PartenairesComponent },
       { path: 'projects', component: ProjectComponent },
+      { path: 'type-project', component: TypeProjectComponent},
       { path: 'rapports', component: RapportComponent },
       { path: 'tacherons', component: TacheronsComponent },
-    ] 
+    ]
   },
-  
+
 
   { path: 'login', component: LoginComponent },
   { path: 'reset-password', component: ResetPasswordComponent },
