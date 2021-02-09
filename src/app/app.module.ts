@@ -17,7 +17,7 @@ import { TacheronsComponent } from './views/_fields/tacherons/tacherons.componen
 import { BaseComponent } from './views/layouts/base/base.component';
 import { FooterComponent } from './views/layouts/footer/footer.component';
 import { SidebarComponent } from './views/layouts/sidebar/sidebar.component';
-import { MaterialModule } from './core/modules/material.module';
+// import { MaterialModule } from './core/modules/material.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TypeProjectComponent } from './views/_fields/project-management/type-project/type-project.component';
 import { ViewProjectComponent } from './views/_fields/project-management/view-project/view-project.component';
@@ -45,7 +45,7 @@ import { ViewProjectComponent } from './views/_fields/project-management/view-pr
     RouterModule.forRoot(routes),
     FormsModule,
     ReactiveFormsModule,
-    MaterialModule,
+    // MaterialModule,
     BrowserAnimationsModule
   ],
   providers: [],
