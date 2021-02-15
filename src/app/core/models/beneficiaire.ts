@@ -1,4 +1,5 @@
 export class Beneficiaire {
+    key: string;
     nom: String;
     prenom: String;
     age: number;

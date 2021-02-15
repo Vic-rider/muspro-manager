@@ -1,4 +1,9 @@
+import { FinancementService } from './../../../core/services/financement.service';
+import { Financement } from './../../../core/models/financement';
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {map} from 'rxjs/operators'
+import Swal from 'sweetalert2'
 
 @Component({
   selector: 'app-financement',
@@ -6,9 +11,122 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FinancementComponent implements OnInit {
 
-  constructor() { }
+  financementForm: FormGroup;
+  financement = new Financement();
+  allFinancement: Array<Financement> = [];
+
+  constructor(
+    private financementService: FinancementService,
+    private fb: FormBuilder) { }
 
   ngOnInit(): void {
+    this.createForm();
+
+    this.financementService.getFinancement().snapshotChanges().pipe(
+      map(changes =>
+        changes.map(c =>
+          ({ key: c.payload.doc.id, ...c.payload.doc.data() })
+        )
+      )
+    ).subscribe(financement => {
+      this.allFinancement = financement;
+      console.log(financement)
+    });
+
+  }
+
+  initForm() {
+    this.financement = new Financement();
+    this.createForm();
+  }
+
+  createForm() {
+    this.financementForm = this.fb.group({
+      code: [this.financement.code, Validators.required],
+      date_financement: [this.financement.date_financement, Validators.required],
+      id_partenaire: [this.financement.id_partenaire, Validators.required],
+		});
+  }
+
+  submit() {
+    let controls = this.financementForm.controls;
+
+    this.financement.code = controls.code.value;
+    this.financement.date_financement = controls.date_financement.value;
+    this.financement.id_partenaire = controls.id_partenaire.value;
+
+    this.financementService.addFinancement(this.financement);
+
+
+    Swal.fire({
+      position: 'top-end',
+      title: 'Financement Bien Ajouté !',
+      showConfirmButton: false,
+      timer: 1500
+    })
+
+    //close modal and clean form
+    document.getElementById('close_modal').click();
+  }
+
+  viewFinancement(financementKey) {
+    console.log(financementKey)
+
+    for( const financement of this.allFinancement) {
+      if (financement.key == financementKey) {
+        this.financement = financement
+      }
+    }
+
+    console.log(this.financement);
+    this.createForm();
+    document.getElementById('open_update_modal').click();
+  }
+
+  updateFinancement() {
+    let controls = this.financementForm.controls;
+
+    this.financement.code = controls.code.value;
+    this.financement.date_financement = controls.date_financement.value;
+    this.financement.id_partenaire = controls.id_partenaire.value;
+
+    console.log(this.financement)
+
+    this.financementService.updateFinancement(this.financement.key, this.financement);
+
+    Swal.fire({
+      position: 'top-end',
+      title: 'FInancement Bien Modifié !',
+      showConfirmButton: false,
+      timer: 1500
+    })
+
+    //close modal and clean form
+    document.getElementById('close_update_modal').click();
+  }
+
+  deleteFinancement(projectKey) {
+    Swal.fire({
+      title: 'Etes vous sure ?',
+      text: "Cette action n'est pas réverssible !",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Oui je Supprime !',
+      cancelButtonText: 'Non'
+    }).then((result) => {
+      if (result.isConfirmed) {
+
+        this.financementService.deleteFinancement(projectKey);
+
+        Swal.fire(
+          'Supprimé !',
+          'Le Financement a été bien supprimé !',
+          'success'
+        )
+      }
+    })
   }
 
 }

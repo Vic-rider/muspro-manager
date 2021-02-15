@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "muspro-manager": {
+      "hosting": {
+        "App": [
+          "muspro-manager"
+        ]
+      }
+    }
+  }
+}

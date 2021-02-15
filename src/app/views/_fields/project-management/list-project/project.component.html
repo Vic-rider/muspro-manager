@@ -27,14 +27,15 @@
 
             <div class="col-sm-6">
               <form style="margin-bottom: 1em;" class="search-bar">
-                <input type="text" class="form-control" placeholder="Enter keywords">
+                <input type="text" class="form-control" placeholder="Rechercher par nom de projet">
               </form>
 
             </div>
 
             <div class="col-sm-3">
               <div class="float-sm-right">
-                <button type="button" class="btn btn-light waves-effect waves-light" data-toggle="modal" data-target="#formemodal"><i class="zmdi zmdi-pin-assistant"></i>&emsp; Nouveau Projet</button>
+                <button (click)="initForm()" type="button" id="open_modal" class="btn btn-light waves-effect waves-light" data-toggle="modal" data-target="#formemodal"><i class="zmdi zmdi-pin-assistant"></i>&emsp; Nouveau Projet</button>
+                <button style="visibility: hidden;" type="button" id="open_update_modal" class="btn btn-light waves-effect waves-light" data-toggle="modal" data-target="#updatemodal"></button>
               </div>
 
             </div>
@@ -49,91 +50,44 @@
               <thead>
                 <tr>
                   <th scope="col">Nom</th>
-                  <th scope="col">Date de Création</th>
-                  <th scope="col">Evolution</th>
+                  <th scope="col">Date de Lancement</th>
                   <th scope="col">Coût</th>
+                  <th scope="col">Type de Projet</th>
+                  <th scope="col">Pays/Ville</th>
+                  <th scope="col">Adresse</th>
+                  <th scope="col">Date de Finition Prévu</th>
                   <th scope="col">Date de Finition</th>
                   <th scope="col">Action</th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>Cell ROROTI</td>
-                  <td>78/145/1418</td>
-                  <td>78%</td>
-                  <td>894.419.841 FCFA</td>
-                  <td>78/145/1418</td>
-                  <td class="row">
+                <tr *ngFor="let projet of allProjects">
+                  <td>{{projet.nom}}</td>
+                  <td>{{projet.date_lancement}}</td>
+                  <td>{{projet.montant}} FCFA</td>
+                  <td>{{projet.type}}</td>
+                  <td>{{projet.pays}}/{{projet.ville}}</td>
+                  <td>{{projet.adresse}}</td>
+                  <td>{{projet.date_finition_prevu}}</td>
+                  <td>{{projet.date_finition}}</td>
+                  <td class="row" style="display: block;">
                     <div class="preview" style="padding: 0;">
-                      <a href="javascript:void();" title="Voir">
+                      <a (click)="viewProject(projet.key)" href="javascript:void();" title="Voir ou Modifier">
                         <i class="icon-eye icons"></i>
                       </a>
-                      <a href="javascript:void();" title="Editer">
-                        <i class="icon-pencil icons"></i>
-                      </a>
-                      <a href="javascript:void();" title="Supprimer">
+                      <a (click)="deleteProject(projet.key)" href="javascript:void();" title="Supprimer">
                         <i class="icon-trash icons"></i>
+                      </a>
+                      <a href="javascript:void();" title="Terminer">
+                        <i class="icon-close icons"></i>
                       </a>
                     </div>
                   </td>
                 </tr>
                 <tr>
-                  <td>Cell ROROTI</td>
-                  <td>78/145/1418</td>
-                  <td>78%</td>
-                  <td>894.419.841 FCFA</td>
-                  <td>78/145/1418</td>
-                  <td class="row">
-                    <div class="preview" style="padding: 0;">
-                      <a href="javascript:void();" title="Voir">
-                        <i class="icon-eye icons"></i>
-                      </a>
-                      <a href="javascript:void();" title="Editer">
-                        <i class="icon-pencil icons"></i>
-                      </a>
-                      <a href="javascript:void();" title="Supprimer">
-                        <i class="icon-trash icons"></i>
-                      </a>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Cell ROROTI</td>
-                  <td>78/145/1418</td>
-                  <td>78%</td>
-                  <td>894.419.841 FCFA</td>
-                  <td>78/145/1418</td>
-                  <td class="row">
-                    <div class="preview" style="padding: 0;">
-                      <a href="javascript:void();" title="Voir">
-                        <i class="icon-eye icons"></i>
-                      </a>
-                      <a href="javascript:void();" title="Editer">
-                        <i class="icon-pencil icons"></i>
-                      </a>
-                      <a href="javascript:void();" title="Supprimer">
-                        <i class="icon-trash icons"></i>
-                      </a>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Cell ROROTI</td>
-                  <td>78/145/1418</td>
-                  <td>78%</td>
-                  <td>894.419.841 FCFA</td>
-                  <td>78/145/1418</td>
-                  <td class="row">
-                    <div class="preview" style="padding: 0;">
-                      <a href="javascript:void();" title="Voir">
-                        <i class="icon-eye icons"></i>
-                      </a>
-                      <a href="javascript:void();" title="Editer">
-                        <i class="icon-pencil icons"></i>
-                      </a>
-                      <a href="javascript:void();" title="Supprimer">
-                        <i class="icon-trash icons"></i>
-                      </a>
+                  <td colspan="9" class="text-center">
+                    <div *ngIf="allProjects.length == 0" class="spinner-border spinner-border-sm text-secondary mr-2" role="status" style="width: 2rem; height: 2rem;">
+                      <span class="sr-only">Loading...</span>
                     </div>
                   </td>
                 </tr>
@@ -157,59 +111,217 @@
   </div>
 
 
-<!-- Modal -->
-<div class="modal fade" id="formemodal">
+<!-- Add Modal -->
+<div style="margin-top: 5em;" class="modal fade" id="formemodal">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
               <h3 class="modal-title">Ajouter un nouveau Projet</h3>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <button id="close_modal" type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
             <div class="modal-body">
-                <form>
-                   <div class="form-group">
-                     <label for="input-1">Nom</label>
-                     <input type="text" class="form-control" id="input-1" placeholder="Entrer le nom du Projet">
-                   </div>
-                   <div class="form-group">
-                    <label for="input-1">Description</label>
-                    <textarea class="form-control" name="" id="" cols="30" rows="2" placeholder="Description du Projet"></textarea>
+                <form [formGroup]="projectForm">
+
+                  <div class="row">
+                    <div class="col-6">
+                      <div class="form-group">
+                        <label for="input-1">Nom</label>
+                        <input #name formControlName="nom" type="text" class="form-control" id="input-1" placeholder="Entrer le nom du Projet">
+                      </div>
+                    </div>
+                    <div class="col-6">
+                      <div class="form-group">
+                        <label for="input-1">Description</label>
+                        <textarea #desc formControlName="description" class="form-control" name="" id="" cols="30" rows="2" placeholder="Description du Projet"></textarea>
+                      </div>
+                    </div>
                   </div>
-                  <div class="form-group">
-                    <label>Type de Projet</label>
-                    <select class="form-control single-select">
-                        <option>Humanitaire</option>
-                        <option>Education</option>
-                        <option>Santé</option>
-                    </select>
+
+                  <div class="row">
+                    <div class="col-6">
+                      <div class="form-group">
+                        <label>Type de Projet</label>
+                        <select formControlName="type" class="form-control single-select">
+                            <option *ngFor="let type of allProjectsType" value="{{type.nom}}">{{type.nom}}</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-6">
+                      <div class="form-group">
+                        <label for="input-2">Montant</label>
+                        <input formControlName="montant" type="number" class="form-control" id="input-2" placeholder="Enter le montant Prévu pour le Projet">
+                      </div>
+                    </div>
                   </div>
-                  <div class="form-group">
-                    <label for="input-1">Date de Début du Projet</label>
-                    <input type="date" class="form-control" id="input-1">
+
+                  <div class="row">
+                    <div class="col-6">
+                      <div class="form-group">
+                        <label for="input-1">Date de Début du Projet</label>
+                        <input formControlName="date_creation" type="date" class="form-control" id="input-1">
+                      </div>
+                    </div>
+                    <div class="col-6">
+                      <div class="form-group">
+                        <label for="input-1">Date de Lancement du Projet</label>
+                        <input formControlName="date_lancement" type="date" class="form-control" id="input-1">
+                      </div>
+                    </div>
                   </div>
-                  <div class="form-group">
-                    <label for="input-1">Date de Fin du Projet</label>
-                    <input type="date" class="form-control" id="input-1">
+
+                  <div class="row">
+                    <div class="col-6">
+                      <div class="form-group">
+                        <label for="input-1">Date de Fin Prévu du Projet</label>
+                        <input formControlName="date_finition_prevu" type="date" class="form-control" id="input-1">
+                      </div>
+                    </div>
+                    <div class="col-6">
+                      <div class="form-group">
+                        <label for="input-3">Pays</label>
+                        <input formControlName="pays" type="text" class="form-control" id="input-3" placeholder="Enter le pays d'implémentation">
+                      </div>
+                    </div>
                   </div>
-                   <div class="form-group">
-                     <label for="input-2">Montant</label>
-                     <input type="number" class="form-control" id="input-2" placeholder="Enter le montant Prévu pour le Projet">
-                   </div>
-                   <div class="form-group">
-                     <label for="input-3">Pays</label>
-                     <input type="text" class="form-control" id="input-3" placeholder="Enter le pays d'implémentation">
-                   </div>
-                   <div class="form-group">
-                    <label for="input-3">Ville</label>
-                    <input type="text" class="form-control" id="input-3" placeholder="Enter la ville d'implémentation">
+
+                  <div class="row">
+                    <div class="col-6">
+                      <div class="form-group">
+                        <label for="input-3">Ville</label>
+                        <input formControlName="ville" type="text" class="form-control" id="input-3" placeholder="Enter la ville d'implémentation">
+                      </div>
+                    </div>
+                    <div class="col-6">
+                      <div class="form-group">
+                        <label for="input-3">Adresse</label>
+                        <input formControlName="adresse" type="text" class="form-control" id="input-3" placeholder="Enter l'adresse d'implémentation">
+                      </div>
+                    </div>
+                    <!-- <div class="col-6">
+
+                    </div> -->
                   </div>
+
                    <div class="form-group">
-                    <button type="submit" class="btn btn-primary px-5">Sauvegarder</button>
+                    <button (click)="submit()" type="submit" class="btn btn-primary px-5">
+                      <i class="icon-drawer icons"></i>
+                      Sauvegarder
+                      <div *ngIf="addloader" class="spinner-border spinner-border-sm text-white mr-2" role="status">
+                        <span class="sr-only">Loading...</span>
+                      </div>
+                    </button>
                   </div>
               </form>
             </div>
         </div>
     </div>
+</div>
+
+<!-- Update Modal -->
+<div style="margin-top: 5em;" class="modal fade" id="updatemodal">
+  <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+          <div class="modal-header">
+            <h3 class="modal-title">Modifier un Projet</h3>
+            <button id="close_update_modal" type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+              <form [formGroup]="projectForm">
+
+                <div class="row">
+                  <div class="col-6">
+                    <div class="form-group">
+                      <label for="input-1">Nom</label>
+                      <input #name formControlName="nom" type="text" class="form-control" id="input-1" placeholder="Entrer le nom du Projet">
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="form-group">
+                      <label for="input-1">Description</label>
+                      <textarea #desc formControlName="description" class="form-control" name="" id="" cols="30" rows="2" placeholder="Description du Projet"></textarea>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-6">
+                    <div class="form-group">
+                      <label>Type de Projet</label>
+                      <select formControlName="type" class="form-control single-select">
+                          <option>Humanitaire</option>
+                          <option>Education</option>
+                          <option>Santé</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="form-group">
+                      <label for="input-2">Montant</label>
+                      <input formControlName="montant" type="number" class="form-control" id="input-2" placeholder="Enter le montant Prévu pour le Projet">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-6">
+                    <div class="form-group">
+                      <label for="input-1">Date de Début du Projet</label>
+                      <input formControlName="date_creation" type="date" class="form-control" id="input-1">
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="form-group">
+                      <label for="input-1">Date de Lancement du Projet</label>
+                      <input formControlName="date_lancement" type="date" class="form-control" id="input-1">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-6">
+                    <div class="form-group">
+                      <label for="input-1">Date de Fin Prévu du Projet</label>
+                      <input formControlName="date_finition_prevu" type="date" class="form-control" id="input-1">
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="form-group">
+                      <label for="input-3">Pays</label>
+                      <input formControlName="pays" type="text" class="form-control" id="input-3" placeholder="Enter le pays d'implémentation">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-6">
+                    <div class="form-group">
+                      <label for="input-3">Ville</label>
+                      <input formControlName="ville" type="text" class="form-control" id="input-3" placeholder="Enter la ville d'implémentation">
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="form-group">
+                      <label for="input-3">Adresse</label>
+                      <input formControlName="adresse" type="text" class="form-control" id="input-3" placeholder="Enter l'adresse d'implémentation">
+                    </div>
+                  </div>
+                  <!-- <div class="col-6">
+
+                  </div> -->
+                </div>
+
+                 <div class="form-group">
+                  <button (click)="updateProject()" type="submit" class="btn btn-primary px-5"><i class="icon-note icons"></i><span class="name"></span>Modifier
+                    <div *ngIf="updateloader" class="spinner-border spinner-border-sm text-white mr-2" role="status">
+                      <span class="sr-only">Loading...</span>
+                    </div></button>
+                </div>
+            </form>
+          </div>
+      </div>
+  </div>
 </div>

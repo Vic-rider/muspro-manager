@@ -34,7 +34,8 @@
 
           <div class="col-sm-3">
             <div class="float-sm-right">
-              <button type="button" class="btn btn-light waves-effect waves-light" data-toggle="modal" data-target="#formemodal"><i class="zmdi zmdi-local-atm"></i>&emsp; Nouveau Financement</button>
+              <button (click)="initForm()" type="button" class="btn btn-light waves-effect waves-light" data-toggle="modal" data-target="#formemodal"><i class="zmdi zmdi-directions-walk"></i>&emsp; Nouveau Tâcheron</button>
+              <button style="visibility: hidden;" type="button" id="open_update_modal" class="btn btn-light waves-effect waves-light" data-toggle="modal" data-target="#updatemodal"></button>
             </div>
 
           </div>
@@ -48,92 +49,32 @@
           <table class="table">
             <thead>
               <tr>
-                <th scope="col">Nom</th>
-                <th scope="col">Date de Création</th>
-                <th scope="col">Evolution</th>
-                <th scope="col">Coût</th>
-                <th scope="col">Date de Finition</th>
+                <th scope="col">Code</th>
+                <th scope="col">Id Partenaire</th>
+                <th scope="col">Date de Financement</th>
                 <th scope="col">Action</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>Cell ROROTI</td>
-                <td>78/145/1418</td>
-                <td>78%</td>
-                <td>894.419.841 FCFA</td>
-                <td>78/145/1418</td>
-                <td class="row">
+              <tr *ngFor="let financement of allFinancement">
+                <td>{{financement.code}}</td>
+                <td>{{financement.id_partenaire}}</td>
+                <td>{{financement.date_financement}}</td>
+                <td class="row" style="display: block;">
                   <div class="preview" style="padding: 0;">
-                    <a href="javascript:void();" title="Voir">
+                    <a (click)="viewFinancement(financement.key)" href="javascript:void();" title="Voir">
                       <i class="icon-eye icons"></i>
                     </a>
-                    <a href="javascript:void();" title="Editer">
-                      <i class="icon-pencil icons"></i>
-                    </a>
-                    <a href="javascript:void();" title="Supprimer">
+                    <a (click)="deleteFinancement(financement.key)" href="javascript:void();" title="Supprimer">
                       <i class="icon-trash icons"></i>
                     </a>
                   </div>
                 </td>
               </tr>
               <tr>
-                <td>Cell ROROTI</td>
-                <td>78/145/1418</td>
-                <td>78%</td>
-                <td>894.419.841 FCFA</td>
-                <td>78/145/1418</td>
-                <td class="row">
-                  <div class="preview" style="padding: 0;">
-                    <a href="javascript:void();" title="Voir">
-                      <i class="icon-eye icons"></i>
-                    </a>
-                    <a href="javascript:void();" title="Editer">
-                      <i class="icon-pencil icons"></i>
-                    </a>
-                    <a href="javascript:void();" title="Supprimer">
-                      <i class="icon-trash icons"></i>
-                    </a>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td>Cell ROROTI</td>
-                <td>78/145/1418</td>
-                <td>78%</td>
-                <td>894.419.841 FCFA</td>
-                <td>78/145/1418</td>
-                <td class="row">
-                  <div class="preview" style="padding: 0;">
-                    <a href="javascript:void();" title="Voir">
-                      <i class="icon-eye icons"></i>
-                    </a>
-                    <a href="javascript:void();" title="Editer">
-                      <i class="icon-pencil icons"></i>
-                    </a>
-                    <a href="javascript:void();" title="Supprimer">
-                      <i class="icon-trash icons"></i>
-                    </a>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td>Cell ROROTI</td>
-                <td>78/145/1418</td>
-                <td>78%</td>
-                <td>894.419.841 FCFA</td>
-                <td>78/145/1418</td>
-                <td class="row">
-                  <div class="preview" style="padding: 0;">
-                    <a href="javascript:void();" title="Voir">
-                      <i class="icon-eye icons"></i>
-                    </a>
-                    <a href="javascript:void();" title="Editer">
-                      <i class="icon-pencil icons"></i>
-                    </a>
-                    <a href="javascript:void();" title="Supprimer">
-                      <i class="icon-trash icons"></i>
-                    </a>
+                <td colspan="5" class="text-center">
+                  <div *ngIf="allFinancement.length == 0" class="spinner-border spinner-border-sm text-secondary mr-2" role="status" style="width: 2rem; height: 2rem;">
+                    <span class="sr-only">Loading...</span>
                   </div>
                 </td>
               </tr>
@@ -158,31 +99,66 @@
 
 
 <!-- Modal -->
-<div class="modal fade" id="formemodal">
+<div style="margin-top: 5em;" class="modal fade" id="formemodal">
   <div class="modal-dialog">
       <div class="modal-content">
           <div class="modal-header">
             <h3 class="modal-title">Ajouter un nouveau Financement</h3>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <button id="close_modal" type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body">
-              <form>
+              <form [formGroup]="financementForm">
                  <div class="form-group">
                    <label for="input-1">Id Partenaire</label>
-                   <input type="text" class="form-control" id="input-1" placeholder="Entrer l'ID du Partenaire">
+                   <input formControlName="id_partenaire" type="text" class="form-control" id="input-1" placeholder="Entrer l'ID du Partenaire">
                  </div>
                  <div class="form-group">
                   <label for="input-1">Date du Financement</label>
-                  <input type="date" class="form-control">
+                  <input formControlName="date_financement" type="date" class="form-control">
                 </div>
                  <div class="form-group">
                   <label for="input-1">Code</label>
-                  <input type="text" class="form-control" id="input-1" placeholder="Entrer le Code">
+                  <input formControlName="code" type="text" class="form-control" id="input-1" placeholder="Entrer le Code">
                 </div>
                  <div class="form-group">
-                  <button type="submit" class="btn btn-primary px-5">Sauvegarder</button>
+                  <button (click)="submit()" type="submit" class="btn btn-primary px-5"><i class="icon-drawer icons"></i>Sauvegarder</button>
+                </div>
+            </form>
+          </div>
+      </div>
+  </div>
+</div>
+
+
+
+<!-- Modal -->
+<div style="margin-top: 5em;" class="modal fade" id="updatemodal">
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+            <h3 class="modal-title">Modifier un Financement</h3>
+            <button id="close_update_modal" type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+              <form [formGroup]="financementForm">
+                 <div class="form-group">
+                   <label for="input-1">Id Partenaire</label>
+                   <input formControlName="id_partenaire" type="text" class="form-control" id="input-1" placeholder="Entrer l'ID du Partenaire">
+                 </div>
+                 <div class="form-group">
+                  <label for="input-1">Date du Financement</label>
+                  <input formControlName="date_financement" type="date" class="form-control">
+                </div>
+                 <div class="form-group">
+                  <label for="input-1">Code</label>
+                  <input formControlName="code" type="text" class="form-control" id="input-1" placeholder="Entrer le Code">
+                </div>
+                 <div class="form-group">
+                  <button (click)="updateFinancement()" type="submit" class="btn btn-primary px-5"><i class="icon-note icons"></i>Modifier</button>
                 </div>
             </form>
           </div>
