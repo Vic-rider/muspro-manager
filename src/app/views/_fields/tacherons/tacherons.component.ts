@@ -1,6 +1,6 @@
 import { TacheronsService } from './../../../core/services/tacherons.service';
 import { Tacherons } from './../../../core/models/tacherons';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {map} from 'rxjs/operators'
 import Swal from 'sweetalert2'

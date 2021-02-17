@@ -25,10 +25,9 @@ export const routes: Routes = [
       { path: 'type-project', component: TypeProjectComponent},
       { path: 'rapports', component: RapportComponent },
       { path: 'tacherons', component: TacheronsComponent },
+      { path: '**', redirectTo: '', pathMatch: 'full'}
     ]
   },
-
-
   { path: 'login', component: LoginComponent },
   { path: 'reset-password', component: ResetPasswordComponent },
   { path: '**', redirectTo: '', pathMatch: 'full'}

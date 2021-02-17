@@ -1,9 +1,10 @@
 import { Beneficiaire } from './../../../core/models/beneficiaire';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {map} from 'rxjs/operators'
 import Swal from 'sweetalert2'
 import { BenéficiareService } from 'src/app/core/services/benéficiare.service';
+
 
 @Component({
   selector: 'app-beneficiaire',

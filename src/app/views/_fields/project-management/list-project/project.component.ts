@@ -6,6 +6,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Project } from './../../../../core/models/project';
 import {map} from 'rxjs/operators'
 import Swal from 'sweetalert2'
+
+
 @Component({
   selector: 'app-project',
   templateUrl: './project.component.html',

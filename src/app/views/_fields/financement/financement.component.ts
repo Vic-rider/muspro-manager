@@ -2,7 +2,7 @@ import { PartenaireService } from './../../../core/services/partenaire.service';
 import { Partenaire } from './../../../core/models/partenaire';
 import { FinancementService } from './../../../core/services/financement.service';
 import { Financement } from './../../../core/models/financement';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {map} from 'rxjs/operators'
 import Swal from 'sweetalert2'
@@ -24,6 +24,7 @@ export class FinancementComponent implements OnInit {
     private financementService: FinancementService,
     private partenaireService: PartenaireService,
     private fb: FormBuilder) { }
+
 
   ngOnInit(): void {
     this.createForm();

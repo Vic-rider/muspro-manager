@@ -1,15 +1,16 @@
 import { PartenaireService } from './../../../core/services/partenaire.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {map} from 'rxjs/operators'
 import { Partenaire } from '../../../core/models/partenaire';
 import Swal from 'sweetalert2'
 
+
 @Component({
   selector: 'app-partenaires',
   templateUrl: './partenaires.component.html',
 })
-export class PartenairesComponent implements OnInit {
+export class PartenairesComponent implements OnInit  {
 
   partenaireForm: FormGroup;
   partenaire = new Partenaire();
@@ -19,6 +20,7 @@ export class PartenairesComponent implements OnInit {
   constructor(
     private partenaireService: PartenaireService,
     private fb: FormBuilder) { }
+
 
   ngOnInit(): void {
     this.createForm();

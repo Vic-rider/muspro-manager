@@ -1,10 +1,9 @@
 import { ProjectTypeService } from './../../../../core/services/project-type.service';
 import { ProjectType } from './../../../../core/models/project-type';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {map} from 'rxjs/operators'
 import Swal from 'sweetalert2'
-
 @Component({
   selector: 'app-type-project',
   templateUrl: './type-project.component.html',
