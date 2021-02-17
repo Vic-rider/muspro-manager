@@ -19,6 +19,7 @@ export class ProjectComponent implements OnInit  {
   allProjectsType: Array<ProjectType> = [];
   addloader = false;
   updateloader = false;
+  _loader = false;
 
   constructor(
     private projetService: ProjectService,
@@ -27,6 +28,7 @@ export class ProjectComponent implements OnInit  {
 
   ngOnInit(): void {
     this.createForm();
+    this._loader = true;
 
     this.projetService.getProject().snapshotChanges().pipe(
       map(changes =>
@@ -36,6 +38,7 @@ export class ProjectComponent implements OnInit  {
       )
     ).subscribe(projet => {
       this.allProjects = projet;
+      this._loader = false;
       console.log(projet)
     });
 

@@ -71,9 +71,10 @@
               </tr>
               <tr>
                 <td colspan="3" class="text-center">
-                  <div *ngIf="allProjectsType.length == 0" class="spinner-border spinner-border-sm text-secondary mr-2" role="status" style="width: 2rem; height: 2rem;">
+                  <div *ngIf="_loader" class="spinner-border spinner-border-sm text-secondary mr-2" role="status" style="width: 2rem; height: 2rem;">
                     <span class="sr-only">Loading...</span>
                   </div>
+                  <p *ngIf="allProjectsType.length == 0 && !_loader">Aucun Type de Projet !</p>
                 </td>
               </tr>
             </tbody>

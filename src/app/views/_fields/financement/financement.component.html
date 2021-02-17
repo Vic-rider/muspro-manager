@@ -50,7 +50,7 @@
             <thead>
               <tr>
                 <th scope="col">Code</th>
-                <th scope="col">Id Partenaire</th>
+                <th scope="col">Nom Partenaire</th>
                 <th scope="col">Date de Financement</th>
                 <th scope="col">Action</th>
               </tr>
@@ -58,7 +58,7 @@
             <tbody>
               <tr *ngFor="let financement of allFinancement">
                 <td>{{financement.code}}</td>
-                <td>{{financement.id_partenaire}}</td>
+                <td>{{financement.nom_partenaire}}</td>
                 <td>{{financement.date_financement}}</td>
                 <td class="row" style="display: block;">
                   <div class="preview" style="padding: 0;">
@@ -73,9 +73,10 @@
               </tr>
               <tr>
                 <td colspan="5" class="text-center">
-                  <div *ngIf="allFinancement.length == 0" class="spinner-border spinner-border-sm text-secondary mr-2" role="status" style="width: 2rem; height: 2rem;">
+                  <div *ngIf="_loader" class="spinner-border spinner-border-sm text-secondary mr-2" role="status" style="width: 2rem; height: 2rem;">
                     <span class="sr-only">Loading...</span>
                   </div>
+                  <p *ngIf="allFinancement.length == 0 && !_loader">Aucun financement !</p>
                 </td>
               </tr>
             </tbody>
@@ -111,8 +112,10 @@
           <div class="modal-body">
               <form [formGroup]="financementForm">
                  <div class="form-group">
-                   <label for="input-1">Id Partenaire</label>
-                   <input formControlName="id_partenaire" type="text" class="form-control" id="input-1" placeholder="Entrer l'ID du Partenaire">
+                   <label for="input-1">Partenaire</label>
+                   <select formControlName="id_partenaire" class="form-control" id="input-1" name="" id="">
+                     <option *ngFor="let patenaire of allPartenaire" value="{{patenaire.key}}">{{patenaire.nom}} {{patenaire.prenom}}</option>
+                   </select>
                  </div>
                  <div class="form-group">
                   <label for="input-1">Date du Financement</label>
@@ -145,10 +148,12 @@
           </div>
           <div class="modal-body">
               <form [formGroup]="financementForm">
-                 <div class="form-group">
-                   <label for="input-1">Id Partenaire</label>
-                   <input formControlName="id_partenaire" type="text" class="form-control" id="input-1" placeholder="Entrer l'ID du Partenaire">
-                 </div>
+                <div class="form-group">
+                  <label for="input-1">Partenaire</label>
+                  <select formControlName="id_partenaire" class="form-control" id="input-1" name="" id="">
+                    <option *ngFor="let patenaire of allPartenaire" value="{{patenaire.key}}">{{patenaire.nom}} {{patenaire.prenom}}</option>
+                  </select>
+                </div>
                  <div class="form-group">
                   <label for="input-1">Date du Financement</label>
                   <input formControlName="date_financement" type="date" class="form-control">

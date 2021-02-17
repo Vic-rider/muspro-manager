@@ -14,6 +14,7 @@ export class TacheronsComponent implements OnInit {
   tacheronsForm: FormGroup;
   tacheron = new Tacherons();
   allTacherons: Array<Tacherons> = [];
+  _loader = false;
 
   constructor(
     private tacheronServices: TacheronsService,
@@ -21,6 +22,7 @@ export class TacheronsComponent implements OnInit {
 
   ngOnInit(): void {
     this.createForm();
+    this._loader = true;
 
     this.tacheronServices.getTacherons().snapshotChanges().pipe(
       map(changes =>
@@ -30,6 +32,7 @@ export class TacheronsComponent implements OnInit {
       )
     ).subscribe(tacheron => {
       this.allTacherons = tacheron;
+      this._loader = false;
       console.log(tacheron)
     });
 

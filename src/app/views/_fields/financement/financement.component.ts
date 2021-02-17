@@ -1,3 +1,5 @@
+import { PartenaireService } from './../../../core/services/partenaire.service';
+import { Partenaire } from './../../../core/models/partenaire';
 import { FinancementService } from './../../../core/services/financement.service';
 import { Financement } from './../../../core/models/financement';
 import { Component, OnInit } from '@angular/core';
@@ -11,17 +13,22 @@ import Swal from 'sweetalert2'
 })
 export class FinancementComponent implements OnInit {
 
+  _loader = false;
   financementForm: FormGroup;
   financement = new Financement();
   allFinancement: Array<Financement> = [];
+  partenaire = new Partenaire();
+  allPartenaire: Array<Partenaire> = [];
 
   constructor(
     private financementService: FinancementService,
+    private partenaireService: PartenaireService,
     private fb: FormBuilder) { }
 
   ngOnInit(): void {
     this.createForm();
-
+    this._loader = true;
+    //get financements
     this.financementService.getFinancement().snapshotChanges().pipe(
       map(changes =>
         changes.map(c =>
@@ -29,8 +36,20 @@ export class FinancementComponent implements OnInit {
         )
       )
     ).subscribe(financement => {
+      this._loader = false;
       this.allFinancement = financement;
       console.log(financement)
+    });
+
+    //get partenaires
+    this.partenaireService.getPartenaire().snapshotChanges().pipe(
+      map(changes =>
+        changes.map(c =>
+          ({ key: c.payload.doc.id, ...c.payload.doc.data() })
+        )
+      )
+    ).subscribe(partnaire => {
+      this.allPartenaire = partnaire;
     });
 
   }
@@ -51,11 +70,20 @@ export class FinancementComponent implements OnInit {
   submit() {
     let controls = this.financementForm.controls;
 
+    //select the choseen partenaire
+    for( const partenaire of this.allPartenaire) {
+      if (partenaire.key == controls.id_partenaire.value) {
+        this.partenaire = partenaire
+      }
+    }
+
     this.financement.code = controls.code.value;
     this.financement.date_financement = controls.date_financement.value;
     this.financement.id_partenaire = controls.id_partenaire.value;
+    this.financement.nom_partenaire = this.partenaire.nom + ' ' + this.partenaire.prenom;
 
     this.financementService.addFinancement(this.financement);
+
 
 
     Swal.fire({
@@ -86,9 +114,16 @@ export class FinancementComponent implements OnInit {
   updateFinancement() {
     let controls = this.financementForm.controls;
 
+    for( const partenaire of this.allPartenaire) {
+      if (partenaire.key == controls.id_partenaire.value) {
+        this.partenaire = partenaire
+      }
+    }
+
     this.financement.code = controls.code.value;
     this.financement.date_financement = controls.date_financement.value;
     this.financement.id_partenaire = controls.id_partenaire.value;
+    this.financement.nom_partenaire = this.partenaire.nom + ' ' + this.partenaire.prenom;
 
     console.log(this.financement)
 
@@ -96,7 +131,7 @@ export class FinancementComponent implements OnInit {
 
     Swal.fire({
       position: 'top-end',
-      title: 'FInancement Bien Modifié !',
+      title: 'Financement Bien Modifié !',
       showConfirmButton: false,
       timer: 1500
     })

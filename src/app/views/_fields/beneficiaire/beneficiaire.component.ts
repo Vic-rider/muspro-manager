@@ -14,6 +14,7 @@ export class BeneficiaireComponent implements OnInit {
   beneficiaireForm: FormGroup;
   beneficiare = new Beneficiaire();
   allBeneficiaire: Array<Beneficiaire> = [];
+  _loader = false;
 
   constructor(
     private beneficiareService: BenéficiareService,
@@ -21,6 +22,7 @@ export class BeneficiaireComponent implements OnInit {
 
   ngOnInit(): void {
     this.createForm();
+    this._loader = true;
 
     this.beneficiareService.getBeneficiaire().snapshotChanges().pipe(
       map(changes =>
@@ -30,6 +32,7 @@ export class BeneficiaireComponent implements OnInit {
       )
     ).subscribe(beneficiaire => {
       this.allBeneficiaire = beneficiaire;
+      this._loader = false;
       console.log(beneficiaire)
     });
 

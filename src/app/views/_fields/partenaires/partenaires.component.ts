@@ -14,6 +14,7 @@ export class PartenairesComponent implements OnInit {
   partenaireForm: FormGroup;
   partenaire = new Partenaire();
   allPartenaire: Array<Partenaire> = [];
+  _loader = false;
 
   constructor(
     private partenaireService: PartenaireService,
@@ -21,6 +22,7 @@ export class PartenairesComponent implements OnInit {
 
   ngOnInit(): void {
     this.createForm();
+    this._loader = true;
 
     this.partenaireService.getPartenaire().snapshotChanges().pipe(
       map(changes =>
@@ -30,6 +32,7 @@ export class PartenairesComponent implements OnInit {
       )
     ).subscribe(partenaire => {
       this.allPartenaire = partenaire;
+      this._loader = false;
       console.log(partenaire)
     });
 
