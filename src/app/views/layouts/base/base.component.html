@@ -24,12 +24,6 @@
         </li>
 
         <li>
-          <a routerLink="/type-project" class="waves-effect">
-            <i class="zmdi zmdi-local-activity"></i> <span>TYPES DE PROJET</span>
-          </a>
-        </li>
-
-        <li>
           <a routerLink="/partenaires" class="waves-effect">
             <i class="zmdi zmdi-layers"></i>
             <span>PARTENAIRE</span>
@@ -68,15 +62,22 @@
             <i class="fa fa-angle-left pull-right"></i>
           </a>
           <ul class="sidebar-submenu">
-            <li><a href="components-range-slider.html"><i class="zmdi zmdi-dot-circle-alt"></i> Range Sliders</a></li>
-            <li><a href="components-image-carousel.html"><i class="zmdi zmdi-dot-circle-alt"></i> Image Carousels</a></li>
-            <li><a href="components-grid-layouts.html"><i class="zmdi zmdi-dot-circle-alt"></i> Grid Layouts</a></li>
-            <li><a href="components-switcher-buttons.html"><i class="zmdi zmdi-dot-circle-alt"></i> Switcher Buttons</a></li>
-            <li><a href="components-pricing-table.html"><i class="zmdi zmdi-dot-circle-alt"></i> Pricing Tables</a></li>
-            <li><a href="components-vertical-timeline.html"><i class="zmdi zmdi-dot-circle-alt"></i> Vertical Timeline</a></li>
-            <li><a href="components-horizontal-timeline.html"><i class="zmdi zmdi-dot-circle-alt"></i> Horizontal Timeline</a></li>
-            <li><a href="components-fancy-lightbox.html"><i class="zmdi zmdi-dot-circle-alt"></i> Fancy Lightbox</a></li>
-            <li><a href="components-color-palette.html"><i class="zmdi zmdi-dot-circle-alt"></i> Color Palette</a></li>
+            <!-- <li><a href="components-range-slider.html"><i class="zmdi zmdi-dot-circle-alt"></i> Range Sliders</a></li> -->
+            <li>
+              <a routerLink="/type-project" class="waves-effect">
+                <i class="zmdi zmdi-local-activity"></i><span>TYPES DE PROJET</span>
+              </a>
+            </li>
+            <li>
+              <a routerLink="/type-project" class="waves-effect">
+                <i class="zmdi zmdi-globe-alt"></i><span>Pays</span>
+              </a>
+            </li>
+            <li>
+              <a routerLink="/type-project" class="waves-effect">
+                <i class="zmdi zmdi-lock"></i><span>Confidentialité</span>
+              </a>
+            </li>
           </ul>
         </li>
       </ul>
@@ -227,20 +228,20 @@
             <div class="media">
               <div class="avatar"><img class="align-self-start mr-3" src="assets/images/avatars/avatar-13.png" alt="user avatar"></div>
               <div class="media-body">
-              <h6 class="mt-2 user-title">Sarajhon Mccoy</h6>
-              <p class="user-subtitle">mccoy@example.com</p>
+              <!-- <h6 class="mt-2 user-title">Sarajhon Mccoy</h6> -->
+              <p class="user-subtitle">{{user.email}}</p>
               </div>
             </div>
             </a>
           </li>
           <li class="dropdown-divider"></li>
-          <li class="dropdown-item"><i class="icon-envelope mr-2"></i> Inbox</li>
+          <li class="dropdown-item" style="cursor: pointer;"><i class="icon-envelope mr-2"></i> Inbox</li>
           <li class="dropdown-divider"></li>
-          <li class="dropdown-item"><i class="icon-wallet mr-2"></i> Account</li>
+          <li class="dropdown-item" style="cursor: pointer;"><i class="icon-wallet mr-2"></i> Account</li>
           <li class="dropdown-divider"></li>
-          <li class="dropdown-item"><i class="icon-settings mr-2"></i> Setting</li>
+          <li class="dropdown-item" style="cursor: pointer;"><i class="icon-settings mr-2"></i> Setting</li>
           <li class="dropdown-divider"></li>
-          <li class="dropdown-item"><i class="icon-power mr-2"></i> Logout</li>
+          <li class="dropdown-item" style="cursor: pointer;" (click)="logOut()"><i class="icon-power mr-2"></i> Logout</li>
         </ul>
       </li>
     </ul>

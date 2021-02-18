@@ -25,7 +25,7 @@ export class AuthService {
     return (this.authState !== null) ? this.authState.uid : ''
   }
 
-  get currentUserName(): string {
+  currentUserName(): string {
     return this.authState['email']
   }
 
@@ -53,14 +53,7 @@ export class AuthService {
   }
 
   loginWithEmail(email: string, password: string) {
-    return this.afAuth.signInWithEmailAndPassword(email, password)
-      .then((user) => {
-        this.authState = user
-      })
-      .catch(error => {
-        console.log(error)
-        throw error
-      });
+    return this.afAuth.signInWithEmailAndPassword(email, password);
   }
 
   signOut(): void {

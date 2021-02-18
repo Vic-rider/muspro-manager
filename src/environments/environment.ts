@@ -4,6 +4,7 @@
 
 export const environment = {
   production: false,
+  musproUserdetail: 'musproUser',
   firebase: {
     //my project
     apiKey: "AIzaSyDxbRD6etGtR5BUXPlfGQqKU8dzRdpEgn0",
