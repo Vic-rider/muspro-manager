@@ -14,18 +14,18 @@
 
       <form>
         <div class="form-group">
-      <label for="exampleInputUsername" class="sr-only">Username</label>
+          <p *ngIf="logError" class="text-center" style="color: red;">Email ou Mot de Passe Invalid</p>
         <div class="position-relative has-icon-right">
-        <input type="text" id="exampleInputUsername" class="form-control input-shadow" placeholder="Enter Username">
+        <input type="text" [(ngModel)]="user.email" name="email" id="exampleInputUsername" class="form-control input-shadow" placeholder="Enter votre Email">
         <div class="form-control-position">
           <i class="icon-user"></i>
         </div>
         </div>
         </div>
         <div class="form-group">
-      <label for="exampleInputPassword" class="sr-only">Password</label>
+      <label for="exampleInputPassword" class="sr-only">Mot de Passe</label>
         <div class="position-relative has-icon-right">
-        <input type="password" id="exampleInputPassword" class="form-control input-shadow" placeholder="Enter Password">
+        <input type="password" [(ngModel)]="user.password" name="password" id="exampleInputPassword" class="form-control input-shadow" placeholder="Entrer votre mot de Passe">
         <div class="form-control-position">
           <i class="icon-lock"></i>
         </div>
@@ -39,10 +39,14 @@
           </div>
           </div>
           <div class="form-group col-6 text-right">
-          <a href="authentication-reset-password.html">Reset Password</a>
+          <a routerLink="/reset-password">Reset Password</a>
           </div>
         </div>
-        <button type="button" class="btn btn-primary btn-block">Sign In</button>
+        <button type="button" (click)="submit()" class="btn btn-primary btn-block">Sign In
+          <div *ngIf="_loader" class="spinner-border spinner-border-sm text-white mr-2" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
+        </button>
       </form>
 
     </div>

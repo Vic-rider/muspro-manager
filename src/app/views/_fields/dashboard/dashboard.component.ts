@@ -7,6 +7,8 @@ import { Chart } from 'node_modules/chart.js'
 })
 export class DashboardComponent implements OnInit {
 
+  date = new Date();
+
   constructor() { }
 
   ngOnInit(): void {

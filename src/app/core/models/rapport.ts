@@ -1,7 +1,14 @@
 export class Rapport {
+    key: string;
     code: String;
     date_rapport: Date;
-    envoyer: boolean;
+    desc: string;
+    envoyer: false;
     id_project: String;
-    valid: boolean;
+    valid: false;
+    files = {
+        audios: [],
+        images: [],
+        videos: []
+    }
 }

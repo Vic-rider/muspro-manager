@@ -1,10 +1,12 @@
-$(function() {
+function dash() {
+  $(function() {
     "use strict";
-	  
+
 	  // chart 1
-	 
-		  var ctx = document.getElementById('chart1').getContext('2d');
-		
+
+		  // var ctx = document.getElementById('chart1').getContext('2d');
+		  var ctx = document.getElementById('chart1');
+
 			var myChart = new Chart(ctx, {
 				type: 'bar',
 				data: {
@@ -27,7 +29,7 @@ $(function() {
 						pointRadius :0,
 						pointHoverRadius :0,
 						borderWidth: 2
-						
+
 					}]
 				},
 			options: {
@@ -35,13 +37,13 @@ $(function() {
 				legend: {
 				  display: true,
 				  labels: {
-					fontColor: '#585757',  
+					fontColor: '#585757',
 					boxWidth:40
 				  }
 				},
 				tooltips: {
 				  displayColors:false
-				},	
+				},
 			  scales: {
 				  xAxes: [{
 					barPercentage: .3,
@@ -67,13 +69,14 @@ $(function() {
 				 }
 
 			 }
-			}); 
-			
-			
+			});
+
+
 		// chart 2
-	 
-		  var ctx = document.getElementById('chart2').getContext('2d');
-		
+
+		  var ctx = document.getElementById('chart2');
+		  // var ctx = document.getElementById('chart2').getContext('2d');
+
 			var myChart = new Chart(ctx, {
 				type: 'line',
 				data: {
@@ -101,13 +104,13 @@ $(function() {
 				legend: {
 				  display: true,
 				  labels: {
-					fontColor: '#585757',  
+					fontColor: '#585757',
 					boxWidth:40
 				  }
 				},
 				tooltips: {
 				  displayColors:false
-				},	
+				},
 			  scales: {
 				  xAxes: [{
 					ticks: {
@@ -132,28 +135,22 @@ $(function() {
 				 }
 
 			 }
-			}); 	
-			
-			
+			});
+
+
 	    //pie
             $("span.pie").peity("pie",{
                 width: 158,
-                height: 158 
+                height: 158
             });
-        
+
         //donut
 
           $("span.donut").peity("donut",{
                 width: 158,
-                height: 158 
+                height: 158
             });
-			
-			
-			
-			
-			
-			
-			
-			
-	
-	  });	
+
+
+	  });
+}

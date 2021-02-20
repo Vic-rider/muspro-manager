@@ -34,7 +34,8 @@
 
           <div class="col-sm-3">
             <div class="float-sm-right">
-              <button type="button" class="btn btn-light waves-effect waves-light" data-toggle="modal" data-target="#formemodal"><i class="zmdi zmdi-nature-people"></i>&emsp; Nouveau Bénéficiaire</button>
+              <button (click)="initForm()" type="button" class="btn btn-light waves-effect waves-light" data-toggle="modal" data-target="#formemodal"><i class="zmdi zmdi-directions-walk"></i>&emsp; Nouveau Tâcheron</button>
+              <button style="visibility: hidden;" type="button" id="open_update_modal" class="btn btn-light waves-effect waves-light" data-toggle="modal" data-target="#updatemodal"></button>
             </div>
 
           </div>
@@ -49,92 +50,43 @@
             <thead>
               <tr>
                 <th scope="col">Nom</th>
-                <th scope="col">Date de Création</th>
-                <th scope="col">Evolution</th>
-                <th scope="col">Coût</th>
-                <th scope="col">Date de Finition</th>
+                <th scope="col">Prénom</th>
+                <th scope="col">Age</th>
+                <th scope="col">Téléphone</th>
+                <th scope="col">Nombre d'enfant</th>
+                <th scope="col">Ethnie</th>
+                <th scope="col">Code</th>
+                <th scope="col">Pays/Ville/Quartier</th>
                 <th scope="col">Action</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>Cell ROROTI</td>
-                <td>78/145/1418</td>
-                <td>78%</td>
-                <td>894.419.841 FCFA</td>
-                <td>78/145/1418</td>
-                <td class="row">
+              <tr *ngFor="let beneficiare of allBeneficiaire">
+                <td>{{beneficiare.nom}}</td>
+                <td>{{beneficiare.prenom}}</td>
+                <td>{{beneficiare.age}}</td>
+                <td>{{beneficiare.tel}}</td>
+                <td>{{beneficiare.nbre_enfant}}</td>
+                <td>{{beneficiare.ethnie}}</td>
+                <td>{{beneficiare.code_chaine}}</td>
+                <td>{{beneficiare.pays}}/{{beneficiare.ville}}/{{beneficiare.quartier}}</td>
+                <td class="row" style="display: block;">
                   <div class="preview" style="padding: 0;">
-                    <a href="javascript:void();" title="Voir">
+                    <a (click)="viewBeneficiaire(beneficiare.key)" href="javascript:void();" title="Voir">
                       <i class="icon-eye icons"></i>
                     </a>
-                    <a href="javascript:void();" title="Editer">
-                      <i class="icon-pencil icons"></i>
-                    </a>
-                    <a href="javascript:void();" title="Supprimer">
+                    <a (click)="deleteBeneficiare(beneficiare.key)" href="javascript:void();" title="Supprimer">
                       <i class="icon-trash icons"></i>
                     </a>
                   </div>
                 </td>
               </tr>
               <tr>
-                <td>Cell ROROTI</td>
-                <td>78/145/1418</td>
-                <td>78%</td>
-                <td>894.419.841 FCFA</td>
-                <td>78/145/1418</td>
-                <td class="row">
-                  <div class="preview" style="padding: 0;">
-                    <a href="javascript:void();" title="Voir">
-                      <i class="icon-eye icons"></i>
-                    </a>
-                    <a href="javascript:void();" title="Editer">
-                      <i class="icon-pencil icons"></i>
-                    </a>
-                    <a href="javascript:void();" title="Supprimer">
-                      <i class="icon-trash icons"></i>
-                    </a>
+                <td colspan="9" class="text-center">
+                  <div *ngIf="_loader" class="spinner-border spinner-border-sm text-secondary mr-2" role="status" style="width: 2rem; height: 2rem;">
+                    <span class="sr-only">Loading...</span>
                   </div>
-                </td>
-              </tr>
-              <tr>
-                <td>Cell ROROTI</td>
-                <td>78/145/1418</td>
-                <td>78%</td>
-                <td>894.419.841 FCFA</td>
-                <td>78/145/1418</td>
-                <td class="row">
-                  <div class="preview" style="padding: 0;">
-                    <a href="javascript:void();" title="Voir">
-                      <i class="icon-eye icons"></i>
-                    </a>
-                    <a href="javascript:void();" title="Editer">
-                      <i class="icon-pencil icons"></i>
-                    </a>
-                    <a href="javascript:void();" title="Supprimer">
-                      <i class="icon-trash icons"></i>
-                    </a>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td>Cell ROROTI</td>
-                <td>78/145/1418</td>
-                <td>78%</td>
-                <td>894.419.841 FCFA</td>
-                <td>78/145/1418</td>
-                <td class="row">
-                  <div class="preview" style="padding: 0;">
-                    <a href="javascript:void();" title="Voir">
-                      <i class="icon-eye icons"></i>
-                    </a>
-                    <a href="javascript:void();" title="Editer">
-                      <i class="icon-pencil icons"></i>
-                    </a>
-                    <a href="javascript:void();" title="Supprimer">
-                      <i class="icon-trash icons"></i>
-                    </a>
-                  </div>
+                  <p *ngIf="allBeneficiaire.length == 0 && !_loader">Aucun financement !</p>
                 </td>
               </tr>
             </tbody>
@@ -158,28 +110,28 @@
 
 
 <!-- Modal -->
-<div class="modal fade" id="formemodal">
+<div style="margin-top: 5em;" class="modal fade" id="formemodal">
   <div class="modal-dialog modal-lg">
       <div class="modal-content">
           <div class="modal-header">
             <h3 class="modal-title">Ajouter un nouveau Bénéficiaire</h3>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <button id="close_modal" type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body">
-              <form>
+              <form [formGroup]="beneficiaireForm">
                   <div class="row">
                     <div class="col-6">
                       <div class="form-group">
                         <label for="input-1">Nom</label>
-                        <input type="text" class="form-control" id="input-1" placeholder="Entrer le Nom du Bénéficiaire">
+                        <input formControlName="nom" type="text" class="form-control" id="input-1" placeholder="Entrer le Nom du Bénéficiaire">
                       </div>
                     </div>
                     <div class="col-6">
                       <div class="form-group">
                         <label for="input-1">Prénom</label>
-                        <input type="text" class="form-control" id="input-1" placeholder="Entrer le Prénom du Bénéficiaire">
+                        <input formControlName="prenom" type="text" class="form-control" id="input-1" placeholder="Entrer le Prénom du Bénéficiaire">
                       </div>
                     </div>
                   </div>
@@ -188,13 +140,13 @@
                     <div class="col-6">
                       <div class="form-group">
                         <label for="input-1">Age</label>
-                        <input type="number" class="form-control" id="input-1" placeholder="Entrer l'âge du Bénéficiaire">
+                        <input formControlName="age" type="number" class="form-control" id="input-1" placeholder="Entrer l'âge du Bénéficiaire">
                       </div>
                     </div>
                     <div class="col-6">
                       <div class="form-group">
                         <label for="input-1">Téléphone</label>
-                        <input type="text" class="form-control" id="input-1" placeholder="Entrer le téléphone du Bénéficiaire">
+                        <input formControlName="tel" type="text" class="form-control" id="input-1" placeholder="Entrer le téléphone du Bénéficiaire">
                       </div>
                     </div>
                   </div>
@@ -203,13 +155,13 @@
                     <div class="col-6">
                       <div class="form-group">
                         <label for="input-1">Nombre d'enfant</label>
-                        <input type="number" class="form-control" id="input-1" placeholder="Entrer le nombre d'enfant du Bénéficiaire">
+                        <input formControlName="nbr_enfant" type="number" class="form-control" id="input-1" placeholder="Entrer le nombre d'enfant du Bénéficiaire">
                       </div>
                     </div>
                     <div class="col-6">
                       <div class="form-group">
                         <label for="input-1">Ethnie</label>
-                        <input type="text" class="form-control" id="input-1" placeholder="Entrer l'Ethnie du Bénéficiaire">
+                        <input formControlName="ethnie" type="text" class="form-control" id="input-1" placeholder="Entrer l'Ethnie du Bénéficiaire">
                       </div>
                     </div>
                   </div>
@@ -218,13 +170,13 @@
                     <div class="col-6">
                       <div class="form-group">
                         <label for="input-1">Code</label>
-                        <input type="text" class="form-control" id="input-1" placeholder="Entrer le Code du Bénéficiaire">
+                        <input formControlName="code" type="text" class="form-control" id="input-1" placeholder="Entrer le Code du Bénéficiaire">
                       </div>
                     </div>
                     <div class="col-6">
                       <div class="form-group">
                         <label for="input-1">Pays</label>
-                        <input type="text" class="form-control" id="input-1" placeholder="Entrer le Pays de résidence du Bénéficiaire">
+                        <input formControlName="pays" type="text" class="form-control" id="input-1" placeholder="Entrer le Pays de résidence du Bénéficiaire">
                       </div>
                     </div>
                   </div>
@@ -233,22 +185,119 @@
                     <div class="col-6">
                       <div class="form-group">
                         <label for="input-1">Ville</label>
-                        <input type="text" class="form-control" id="input-1" placeholder="Entrer la ville de résidence du Bénéficiaire">
+                        <input formControlName="ville" type="text" class="form-control" id="input-1" placeholder="Entrer la ville de résidence du Bénéficiaire">
                       </div>
                     </div>
                     <div class="col-6">
                       <div class="form-group">
                         <label for="input-1">Quartier</label>
-                        <input type="text" class="form-control" id="input-1" placeholder="Entrer le Quartier de résidence du Bénéficiaire">
+                        <input formControlName="quartier" type="text" class="form-control" id="input-1" placeholder="Entrer le Quartier de résidence du Bénéficiaire">
                       </div>
                     </div>
                   </div>
 
                  <div class="form-group">
-                  <button type="submit" class="btn btn-primary px-5">Sauvegarder</button>
+                  <button (click)="submit()" type="submit" class="btn btn-primary px-5"><i class="icon-drawer icons"></i>Sauvegarder</button>
                 </div>
             </form>
           </div>
       </div>
   </div>
 </div>
+
+<!-- Update Modal -->
+<div style="margin-top: 5em;" class="modal fade" id="updatemodal">
+  <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+          <div class="modal-header">
+            <h3 class="modal-title">Ajouter un nouveau Bénéficiaire</h3>
+            <button id="close_update_modal" type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+              <form [formGroup]="beneficiaireForm">
+                  <div class="row">
+                    <div class="col-6">
+                      <div class="form-group">
+                        <label for="input-1">Nom</label>
+                        <input formControlName="nom" type="text" class="form-control" id="input-1" placeholder="Entrer le Nom du Bénéficiaire">
+                      </div>
+                    </div>
+                    <div class="col-6">
+                      <div class="form-group">
+                        <label for="input-1">Prénom</label>
+                        <input formControlName="prenom" type="text" class="form-control" id="input-1" placeholder="Entrer le Prénom du Bénéficiaire">
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-6">
+                      <div class="form-group">
+                        <label for="input-1">Age</label>
+                        <input formControlName="age" type="number" class="form-control" id="input-1" placeholder="Entrer l'âge du Bénéficiaire">
+                      </div>
+                    </div>
+                    <div class="col-6">
+                      <div class="form-group">
+                        <label for="input-1">Téléphone</label>
+                        <input formControlName="tel" type="text" class="form-control" id="input-1" placeholder="Entrer le téléphone du Bénéficiaire">
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-6">
+                      <div class="form-group">
+                        <label for="input-1">Nombre d'enfant</label>
+                        <input formControlName="nbr_enfant" type="number" class="form-control" id="input-1" placeholder="Entrer le nombre d'enfant du Bénéficiaire">
+                      </div>
+                    </div>
+                    <div class="col-6">
+                      <div class="form-group">
+                        <label for="input-1">Ethnie</label>
+                        <input formControlName="ethnie" type="text" class="form-control" id="input-1" placeholder="Entrer l'Ethnie du Bénéficiaire">
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-6">
+                      <div class="form-group">
+                        <label for="input-1">Code</label>
+                        <input formControlName="code" type="text" class="form-control" id="input-1" placeholder="Entrer le Code du Bénéficiaire">
+                      </div>
+                    </div>
+                    <div class="col-6">
+                      <div class="form-group">
+                        <label for="input-1">Pays</label>
+                        <input formControlName="pays" type="text" class="form-control" id="input-1" placeholder="Entrer le Pays de résidence du Bénéficiaire">
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-6">
+                      <div class="form-group">
+                        <label for="input-1">Ville</label>
+                        <input formControlName="ville" type="text" class="form-control" id="input-1" placeholder="Entrer la ville de résidence du Bénéficiaire">
+                      </div>
+                    </div>
+                    <div class="col-6">
+                      <div class="form-group">
+                        <label for="input-1">Quartier</label>
+                        <input formControlName="quartier" type="text" class="form-control" id="input-1" placeholder="Entrer le Quartier de résidence du Bénéficiaire">
+                      </div>
+                    </div>
+                  </div>
+
+                 <div class="form-group">
+                  <button (click)="updateBeneficiare()" type="submit" class="btn btn-primary px-5"><i class="icon-note icons"></i>Modifier</button>
+                </div>
+            </form>
+          </div>
+      </div>
+  </div>
+</div>
+

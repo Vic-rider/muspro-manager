@@ -1,3 +1,4 @@
+import { AuthGuard } from './core/guards/auth.guard';
 import { Routes } from "@angular/router";
 import { DashboardComponent } from "./views/_fields/dashboard/dashboard.component";
 import { LoginComponent } from "./views/auth/login/login.component";
@@ -16,6 +17,7 @@ export const routes: Routes = [
   {
     path: '',
     component: BaseComponent,
+    canActivate: [AuthGuard],
     children: [
       { path: '', component: DashboardComponent },
       { path: 'beneficiaires', component: BeneficiaireComponent },
@@ -24,11 +26,9 @@ export const routes: Routes = [
       { path: 'projects', component: ProjectComponent },
       { path: 'type-project', component: TypeProjectComponent},
       { path: 'rapports', component: RapportComponent },
-      { path: 'tacherons', component: TacheronsComponent },
+      { path: 'tacherons', component: TacheronsComponent }
     ]
   },
-
-
   { path: 'login', component: LoginComponent },
   { path: 'reset-password', component: ResetPasswordComponent },
   { path: '**', redirectTo: '', pathMatch: 'full'}
