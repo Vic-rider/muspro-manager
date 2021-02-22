@@ -1,16 +1,21 @@
 import { Injectable } from '@angular/core';
+<<<<<<< HEAD
 import { AngularFireDatabase, AngularFireList } from '@angular/fire/database';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { FileUpload } from '../models/fileUpload';
 import * as firebase from 'firebase';
 import 'firebase/storage';
 import { Rapport } from '../models/rapport';
+=======
+import { AngularFirestore } from '@angular/fire/firestore';
+>>>>>>> 28ab407c312ca8e6895286174e9049fe8b5eafdb
 
 @Injectable({
   providedIn: 'root'
 })
 export class RapportService {
 
+<<<<<<< HEAD
   private basePath = '/rapport';
   rapportCollection: AngularFirestoreCollection<Rapport> = null;
 
@@ -88,5 +93,16 @@ export class RapportService {
   //   const storageRef = firebase.storage().ref();
   //   storageRef.child(`${this.basePath}/${name}`).delete();
   // }
+=======
+  constructor(private firedb: AngularFirestore) { }
+
+  addRapport(rapport){
+    return this.firedb.collection('rapport').add(rapport);
+  }
+
+  getRapport(){
+    return this.firedb.collection('rapport').snapshotChanges();
+  }
+>>>>>>> 28ab407c312ca8e6895286174e9049fe8b5eafdb
 
 }
