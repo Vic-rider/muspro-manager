@@ -5,9 +5,9 @@
       <div class="card gradient-titanium">
        <div class="card-body">
           <div class="media align-items-center">
-            <div class="w-icon"><i class="fa fa-archive text-white"></i></div>
+            <div class="w-icon"><i class="fa fa-cubes text-white"></i></div>
             <div class="media-body ml-3 border-left-xs border-white-2">
-              <h4 class="mb-0 ml-3 text-white">43</h4>
+              <h4 class="mb-0 ml-3 text-white">{{allProjects.length}}</h4>
               <p class="mb-0 ml-3 extra-small-font text-white">Projets Total</p>
             </div>
           </div>
@@ -19,9 +19,9 @@
       <div class="card gradient-orange">
        <div class="card-body">
           <div class="media align-items-center">
-            <div class="w-icon"><i class="fa fa-line-chart text-white"></i></div>
+            <div class="w-icon"><i class="fa fa-cubes text-white"></i></div>
             <div class="media-body ml-3 border-left-xs border-white-2">
-              <h4 class="mb-0 ml-3 text-white">12</h4>
+              <h4 class="mb-0 ml-3 text-white">{{allProjetpending.length}}</h4>
               <p class="mb-0 ml-3 extra-small-font text-white">Projets en Cour</p>
             </div>
           </div>
@@ -33,9 +33,9 @@
       <div class="card gradient-quepal">
        <div class="card-body">
           <div class="media align-items-center">
-            <div class="w-icon"><i class="fa fa-bar-chart text-white"></i></div>
+            <div class="w-icon"><i class="fa fa-cubes text-white"></i></div>
             <div class="media-body ml-3 border-left-xs border-white-2">
-              <h4 class="mb-0 ml-3 text-white">845.848 FCFA</h4>
+              <h4 class="mb-0 ml-3 text-white">{{allProjects.length - allProjetpending.length}}</h4>
               <p class="mb-0 ml-3 extra-small-font text-white">Projets Finalisés</p>
             </div>
           </div>
@@ -47,9 +47,9 @@
       <div class="card gradient-blooker">
        <div class="card-body">
           <div class="media align-items-center">
-            <div class="w-icon"><i class="fa fa-money text-white"></i></div>
+            <div class="w-icon"><i class="fa fa-cubes text-white"></i></div>
             <div class="media-body ml-3 border-left-xs border-white-2">
-              <h4 class="mb-0 ml-3 text-white">184.848 FCFA</h4>
+              <h4 class="mb-0 ml-3 text-white">{{allProjetWaiting.length}}</h4>
               <p class="mb-0 ml-3 extra-small-font text-white">Projets en Attentes</p>
             </div>
           </div>
@@ -61,10 +61,10 @@
       <div class="card gradient-dusk">
        <div class="card-body">
           <div class="media align-items-center">
-            <div class="w-icon"><i class="fa fa-archive text-white"></i></div>
+            <div class="w-icon"><i class="fa fa-money text-white"></i></div>
             <div class="media-body ml-3 border-left-xs border-white-2">
-              <h4 class="mb-0 ml-3 text-white">48.485 FCFA</h4>
-              <p class="mb-0 ml-3 extra-small-font text-white">Investissements Total</p>
+              <h4 class="mb-0 ml-3 text-white">{{allFinancement.length}}</h4>
+              <p class="mb-0 ml-3 extra-small-font text-white">Fiaancements</p>
             </div>
           </div>
         </div>
@@ -75,9 +75,9 @@
       <div class="card gradient-knight">
        <div class="card-body">
           <div class="media align-items-center">
-            <div class="w-icon"><i class="fa fa-line-chart text-white"></i></div>
+            <div class="w-icon"><i class="fa fa-money text-white"></i></div>
             <div class="media-body ml-3 border-left-xs border-white-2">
-              <h4 class="mb-0 ml-3 text-white">12.484 FCFA</h4>
+              <h4 class="mb-0 ml-3 text-white">--</h4>
               <p class="mb-0 ml-3 extra-small-font text-white">Investissement en Attente</p>
             </div>
           </div>
@@ -89,9 +89,9 @@
       <div class="card gradient-redmist">
        <div class="card-body">
           <div class="media align-items-center">
-            <div class="w-icon"><i class="fa fa-bar-chart text-white"></i></div>
+            <div class="w-icon"><i class="fa fa-handshake-o text-white"></i></div>
             <div class="media-body ml-3 border-left-xs border-white-2">
-              <h4 class="mb-0 ml-3 text-white">23</h4>
+              <h4 class="mb-0 ml-3 text-white">{{allPartenaire.length}}</h4>
               <p class="mb-0 ml-3 extra-small-font text-white">Nombres de Partenaires</p>
             </div>
           </div>
@@ -103,10 +103,10 @@
       <div class="card gradient-meridian">
        <div class="card-body">
           <div class="media align-items-center">
-            <div class="w-icon"><i class="fa fa-money text-white"></i></div>
+            <div class="w-icon"><i class="fa fa-institution text-white"></i></div>
             <div class="media-body ml-3 border-left-xs border-white-2">
-              <h4 class="mb-0 ml-3 text-white">184</h4>
-              <p class="mb-0 ml-3 extra-small-font text-white">Bénéficiaires Satisfaits</p>
+              <h4 class="mb-0 ml-3 text-white">{{allBeneficiaire.length}}</h4>
+              <p class="mb-0 ml-3 extra-small-font text-white">Bénéficiaires Total</p>
             </div>
           </div>
         </div>
@@ -117,9 +117,9 @@
       <div class="card gradient-army">
        <div class="card-body">
           <div class="media align-items-center">
-            <div class="w-icon"><i class="fa fa-archive text-white"></i></div>
+            <div class="w-icon"><i class="fa fa-home text-white"></i></div>
             <div class="media-body ml-3 border-left-xs border-white-2">
-              <h4 class="mb-0 ml-3 text-white">43</h4>
+              <h4 class="mb-0 ml-3 text-white">--</h4>
               <p class="mb-0 ml-3 extra-small-font text-white">Bénéficiaire en Attente</p>
             </div>
           </div>
@@ -131,9 +131,9 @@
       <div class="card gradient-steelgray">
        <div class="card-body">
           <div class="media align-items-center">
-            <div class="w-icon"><i class="fa fa-line-chart text-white"></i></div>
+            <div class="w-icon"><i class="fa fa-male text-white"></i></div>
             <div class="media-body ml-3 border-left-xs border-white-2">
-              <h4 class="mb-0 ml-3 text-white">121</h4>
+              <h4 class="mb-0 ml-3 text-white">{{allTacherons.length}}</h4>
               <p class="mb-0 ml-3 extra-small-font text-white">Tacherons</p>
             </div>
           </div>

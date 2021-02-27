@@ -1,0 +1,178 @@
+<div class="container-fluid">
+
+    <div style="margin: 2em; margin-bottom: 3em;" class="col-lg-12">
+        <div class="col-sm-12 row">
+            <h3 style="margin-left: 1em; margin-top: 5px;" class="page-title">Rapport : {{rapport.projet.nom}}</h3>
+        </div>
+    </div>
+
+    <form [formGroup]="rapportForm">
+        <div class="row">
+
+          <div class="form-group col-md-4">
+            <label for="input-1">Projet</label>
+            <select formControlName="projet" class="form-control">
+              <option *ngFor="let project of allProjects" value="{{project.key}}">{{project.nom}}</option>
+            </select>
+          </div>
+
+          <div class="form-group col-md-4">
+           <label for="input-1">Description</label>
+           <textarea formControlName="desc" type="text" class="form-control" id="input-1" placeholder="Description du Rapport"></textarea>
+         </div>
+
+         <div class="form-group col-md-4">
+           <label for="input-1">Ajouter Fichiers</label>
+           <input formControlName="files" type="file" multiple (change)="upload($event)" class="form-control" id="input-1" placeholder="Entrer le Code">
+         </div>
+
+        </div>
+    </form>
+
+    <form>
+      <div class="row">
+        <div class="form-group col-md-6 text-center">
+          <label class="input-1">Validé</label>
+          
+          <div class="text-center">
+            <div class="icheck-material-danger icheck-inline">
+              <input type="radio" value="0" (click)="valid(0)" [checked]="rapport.valid == 0" id="validradiono" name="validradio"/>
+              <label for="validradiono">Non</label>
+            </div>
+            <div class="icheck-material-success icheck-inline">
+              <input type="radio" value="1" (click)="valid(1)" id="validradioyes" [checked]="rapport.valid == 1" name="validradio"/>
+              <label for="validradioyes">Oui</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group col-md-6 text-center">
+          <label class="input-1">Envoyé</label>
+          
+          <div class="text-center">
+            <div class="icheck-material-danger icheck-inline">
+              
+              <input type="radio" value="0" (click)="sent(0)" id="sentradiono" [checked]="rapport.envoyer == 0" name="sentradio"/>
+              <label for="sentradiono">Non</label>
+            </div>
+            <div class="icheck-material-success icheck-inline">
+              <input type="radio" value="1" (click)="sent(1)" id="sentradioyes" [checked]="rapport.envoyer == 1" name="sentradio"/>
+              <label for="sentradioyes">Oui</label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+    <!-- Breadcrumb-->
+  <!-- End Breadcrumb-->
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-header text-uppercase">Images et Photos</div>
+          <div class="card-body">
+            <div class="row">
+            
+              <div *ngFor="let img of rapport.files.images" class="col-md-6 col-lg-3 col-xl-3">
+                <a href="{{img}}" data-fancybox="images" data-caption="This image has a caption">
+                  <img src="{{img}}" alt="lightbox" class="lightbox-thumb img-thumbnail">
+                </a>
+              </div>
+
+              <div *ngIf="rapport.files.images.length == 0" class="col-md-12 text-center">
+                <h6>Aucune Images</h6>
+              </div>
+             
+            </div>
+          </div>
+        </div>
+      </div>
+    </div><!--End Row-->
+
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-header text-uppercase">Audios</div>
+          <div class="card-body">
+            <div class="row">
+            
+              <div style="margin-left: 2em;" *ngFor="let son of rapport.files.audios" class="col-md-6 col-lg-3 col-xl-3">
+                <audio controls src="{{son}}"></audio>
+              </div>
+
+              <div *ngIf="rapport.files.audios.length == 0" class="col-md-12 text-center">
+                <h6>Aucun Audio</h6>
+              </div>
+             
+            </div>
+          </div>
+        </div>
+      </div>
+    </div><!--End Row-->
+
+    
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-header text-uppercase">Vidéos</div>
+          <div class="card-body">
+            <div class="row">
+            
+              <div *ngFor="let vid of rapport.files.videos" class="col-md-6">
+                <video controls width="550">
+                    <source src="{{vid}}">
+                </video>
+              </div>
+
+              <div *ngIf="rapport.files.videos.length == 0" class="col-md-12 text-center">
+                <h6>Aucune Vidéos</h6>
+              </div>
+             
+            </div>
+          </div>
+        </div>
+      </div>
+    </div><!--End Row-->
+
+    
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-header text-uppercase">Documents</div>
+          <div class="card-body">
+            <div class="">
+            
+              <div *ngFor="let doc of rapport.files.docs; let index = index" class="col-md-12">
+                
+                <h4>Doc {{index + 1}}</h4>
+                <!-- <a href="http://example.org/ViewerJS/#{{doc | safe}}"></a> -->
+                <!-- <embed [src]="doc | safe" width="100%" height="600em"> -->
+                <!-- <doc-viewer-angular [url]="doc | safe" viewer="google" style="width:100%;height:50vh;"></doc-viewer-angular> -->
+                <iframe [src]="doc | safe" frameborder="0" width="100%" height="600em"></iframe>
+                <!-- <object [data]="doc | safe" width="100%" height="600em"></object> -->
+              </div>
+
+              <div *ngIf="rapport.files.docs.length == 0" class="col-md-12 text-center">
+                <h6>Aucun Document</h6>
+              </div>
+             
+            </div>
+          </div>
+        </div>
+      </div>
+    </div><!--End Row-->
+
+
+    <div class="form-group">
+        
+        <button style="float: right;" (click)="updateRapprt()" type="submit" class="btn btn-primary px-5">
+          Modifier
+          <div *ngIf="addloader" class="spinner-border spinner-border-sm text-white mr-2" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
+        </button>
+
+
+    <!--start overlay-->
+        <div class="overlay toggle-menu"></div>
+      <!--end overlay-->
+  </div>

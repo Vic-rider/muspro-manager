@@ -4,4 +4,5 @@ export class Financement {
     date_financement: Date;
     id_partenaire: String;
     nom_partenaire: string;
+    montant: number;
 }

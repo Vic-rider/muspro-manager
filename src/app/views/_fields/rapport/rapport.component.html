@@ -34,6 +34,7 @@
 
           <div class="col-sm-3">
             <div class="float-sm-right">
+              <button style="visibility: hidden;" type="button" id="open_update_modal" class="btn btn-light waves-effect waves-light" data-toggle="modal" data-target="#updatemodal"></button>
               <button type="button" class="btn btn-light waves-effect waves-light" data-toggle="modal" data-target="#formemodal"><i class="zmdi zmdi-local-library"></i>&emsp; Nouveau Rapport</button>
             </div>
 
@@ -48,33 +49,50 @@
           <table class="table">
             <thead>
               <tr>
-                <th scope="col">Nom</th>
-                <th scope="col">Date de Création</th>
-                <th scope="col">Evolution</th>
-                <th scope="col">Coût</th>
-                <th scope="col">Date de Finition</th>
+                <th scope="col">Projet</th>
+                <th scope="col">Valider</th>
+                <th scope="col">Envoyer</th>
+                <th scope="col">Fichiers</th>
                 <th scope="col">Action</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>Cell ROROTI</td>
-                <td>78/145/1418</td>
-                <td>78%</td>
-                <td>894.419.841 FCFA</td>
-                <td>78/145/1418</td>
-                <td class="row">
+              <tr *ngFor="let rapport of allRapport">
+                <td>{{rapport.projet.nom}}</td>
+                <td>
+                  <span *ngIf="rapport.valid == 0" class="badge badge-danger badge-pill">Non
+                    <!-- <i class="zmdi zmdi-close"></i> -->
+                  </span>
+                  <span *ngIf="rapport.valid == 1" class="badge badge-success badge-pill">Oui
+                     <!-- <i class="icon-check icons"></i> -->
+                    </span>
+                </td>
+                <td>
+                  <span *ngIf="rapport.envoyer == 0" class="badge badge-danger badge-pill">Non
+                    <!-- <i class="zmdi zmdi-close"></i> -->
+                  </span>
+                  <span *ngIf="rapport.envoyer == 1" class="badge badge-success badge-pill">Oui
+                     <!-- <i class="icon-check icons"></i> -->
+                    </span>
+                  </td>
+                <td>{{rapport.files.audios.length + rapport.files.images.length + rapport.files.docs.length + rapport.files.videos.length}}</td>
+                <td class="row" style="display: block;">
                   <div class="preview" style="padding: 0;">
-                    <a href="javascript:void();" title="Voir">
+                    <a [routerLink]="['/rapport/', rapport.key]" title="Voir">
                       <i class="icon-eye icons"></i>
                     </a>
-                    <a href="javascript:void();" title="Editer">
-                      <i class="icon-pencil icons"></i>
-                    </a>
-                    <a href="javascript:void();" title="Supprimer">
+                    <a (click)="deleterapport(rapport.key)" title="Supprimer">
                       <i class="icon-trash icons"></i>
                     </a>
                   </div>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="9" class="text-center">
+                  <div *ngIf="_loader" class="spinner-border spinner-border-sm text-secondary mr-2" role="status" style="width: 2rem; height: 2rem;">
+                    <span class="sr-only">Loading...</span>
+                  </div>
+                  <p *ngIf="allRapport.length == 0 && !_loader">Aucun Projets !</p>
                 </td>
               </tr>
             </tbody>
@@ -98,34 +116,44 @@
 
 
 <!-- Modal -->
-<div class="modal fade" id="formemodal">
+<div style="margin-top: 5em;" class="modal fade" id="formemodal">
   <div class="modal-dialog">
       <div class="modal-content">
           <div class="modal-header">
             <h3 class="modal-title">Ajouter un Rapport</h3>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <button id="close_modal" type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body">
-              <form>
+              <form [formGroup]="rapportForm">
                  <div class="form-group">
-                   <label for="input-1">Id Projet</label>
-                   <input type="text" class="form-control" id="input-1" placeholder="Entrer l'ID du Projet">
+                   <label for="input-1">Projet</label>
+                   <select formControlName="projet" class="form-control">
+                     <option *ngFor="let project of allProjects" value="{{project.key}}">{{project.nom}}</option>
+                   </select>
                  </div>
                  <div class="form-group">
-                  <label for="input-1">Code</label>
-                  <input type="text" class="form-control" id="input-1" placeholder="Entrer le Code">
+                  <label for="input-1">Description</label>
+                  <textarea formControlName="desc" type="text" class="form-control" id="input-1" placeholder="Description du Rapport"></textarea>
                 </div>
                 <div class="form-group">
-                  <label for="input-1">File</label>
-                  <input type="file" (change)="upload($event)" class="form-control" id="input-1" placeholder="Entrer le Code">
+                  <label for="input-1">Fichiers</label>
+                  <input formControlName="files" type="file" multiple (change)="upload($event)" class="form-control" id="input-1" placeholder="Entrer le Code">
                 </div>
                  <div class="form-group">
-                  <button (click)="uploadImage()" type="submit" class="btn btn-primary px-5">Sauvegarder</button>
+                  <button style="float: right;" (click)="adddRapprt()" type="submit" class="btn btn-primary px-5">
+                    Sauvegarder
+                    <div *ngIf="addloader" class="spinner-border spinner-border-sm text-white mr-2" role="status">
+                      <span class="sr-only">Loading...</span>
+                    </div>
+                  </button>
+                  
                 </div>
             </form>
           </div>
       </div>
   </div>
 </div>
+
+

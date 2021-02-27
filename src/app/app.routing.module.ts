@@ -11,6 +11,7 @@ import { RapportComponent } from "./views/_fields/rapport/rapport.component";
 import { TacheronsComponent } from "./views/_fields/tacherons/tacherons.component";
 import { BaseComponent } from "./views/layouts/base/base.component";
 import { TypeProjectComponent } from "./views/_fields/project-management/type-project/type-project.component";
+import { OneRapportComponent } from './views/_fields/rapport/one-rapport/one-rapport.component';
 
 
 export const routes: Routes = [
@@ -26,6 +27,7 @@ export const routes: Routes = [
       { path: 'projects', component: ProjectComponent },
       { path: 'type-project', component: TypeProjectComponent},
       { path: 'rapports', component: RapportComponent },
+      { path: 'rapport/:id', component: OneRapportComponent},
       { path: 'tacherons', component: TacheronsComponent }
     ]
   },

@@ -41,6 +41,9 @@ import { FinancementService } from './core/services/financement.service';
 import { AuthService } from './core/services/auth.service';
 import { BenéficiareService } from './core/services/benéficiare.service';
 import { DashboardService } from './core/services/dashboard.service';
+import { OneRapportComponent } from './views/_fields/rapport/one-rapport/one-rapport.component';
+import { SafePipe } from './core/pipe/safepipe.pipe';
+import { NgxDocViewerModule, } from 'doc-viewer-angular/modules'
 @NgModule({
   declarations: [
     AppComponent,
@@ -57,7 +60,11 @@ import { DashboardService } from './core/services/dashboard.service';
     TacheronsComponent,
     BaseComponent,
     FooterComponent,
-    SidebarComponent
+    SidebarComponent,
+    OneRapportComponent,
+    SafePipe,
+
+    
   ],
   imports: [
     BrowserModule,
@@ -75,6 +82,10 @@ import { DashboardService } from './core/services/dashboard.service';
     AngularFireDatabaseModule,
     // AngularFirestoreCollection,
     // AngularFirestoreDocument
+
+    //NgxDocViewerModule
+    // NgxDocViewerModule
+
   ],
   providers: [AuthService, BenéficiareService, DashboardService, FinancementService, ProjectService, ProjectTypeService, PartenaireService, RapportService, TacheronsService],
   bootstrap: [AppComponent]

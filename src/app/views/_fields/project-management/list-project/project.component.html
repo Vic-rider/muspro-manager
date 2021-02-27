@@ -36,6 +36,7 @@
               <div class="float-sm-right">
                 <button (click)="initForm()" type="button" id="open_modal" class="btn btn-light waves-effect waves-light" data-toggle="modal" data-target="#formemodal"><i class="zmdi zmdi-pin-assistant"></i>&emsp; Nouveau Projet</button>
                 <button style="visibility: hidden;" type="button" id="open_update_modal" class="btn btn-light waves-effect waves-light" data-toggle="modal" data-target="#updatemodal"></button>
+                <button style="visibility: hidden;" type="button" id="open_remove_modal" class="btn btn-light waves-effect waves-light" data-toggle="modal" data-target="#removemodal"></button>
               </div>
 
             </div>
@@ -78,7 +79,7 @@
                       <a (click)="deleteProject(projet.key)" href="javascript:void();" title="Supprimer">
                         <i class="icon-trash icons"></i>
                       </a>
-                      <a href="javascript:void();" title="Terminer">
+                      <a *ngIf="!projet.date_finition" (click)="viewtoremove(projet.key)" href="javascript:void();" title="Terminer">
                         <i class="icon-close icons"></i>
                       </a>
                     </div>
@@ -206,7 +207,7 @@
                   </div>
 
                    <div class="form-group">
-                    <button (click)="submit()" type="submit" class="btn btn-primary px-5">
+                    <button style="float: right;" (click)="submit()" type="submit" class="btn btn-primary px-5">
                       <i class="icon-drawer icons"></i>
                       Sauvegarder
                       <div *ngIf="addloader" class="spinner-border spinner-border-sm text-white mr-2" role="status">
@@ -316,7 +317,41 @@
                 </div>
 
                  <div class="form-group">
-                  <button (click)="updateProject()" type="submit" class="btn btn-primary px-5"><i class="icon-note icons"></i><span class="name"></span>Modifier
+                  <button style="float: right;" (click)="updateProject()" type="submit" class="btn btn-primary px-5"><i class="icon-note icons"></i><span class="name"></span>Modifier
+                    <div *ngIf="updateloader" class="spinner-border spinner-border-sm text-white mr-2" role="status">
+                      <span class="sr-only">Loading...</span>
+                    </div></button>
+                </div>
+            </form>
+          </div>
+      </div>
+  </div>
+</div>
+
+<!-- Finish project Modal -->
+<div style="margin-top: 5em;" class="modal fade" id="removemodal">
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+            <h3 class="modal-title">Terminer le Projet</h3>
+            <button id="close_remove_modal" type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+              <form [formGroup]="projectForm">
+
+                <div class="row">
+                  <div class="col-12">
+                    <div class="form-group">
+                      <label for="input-1">Date de Fin du Projet</label>
+                      <input formControlName="date_finition" type="date" class="form-control" id="input-1">
+                    </div>
+                  </div>
+                </div>
+
+                 <div class="form-group">
+                  <button style="float: right;" (click)="finichProject()" type="submit" class="btn btn-primary px-5"><span class="name"></span>Terminer
                     <div *ngIf="updateloader" class="spinner-border spinner-border-sm text-white mr-2" role="status">
                       <span class="sr-only">Loading...</span>
                     </div></button>
