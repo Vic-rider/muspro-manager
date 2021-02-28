@@ -164,7 +164,13 @@ export class OneRapportComponent implements OnInit, AfterViewInit {
             }
             
             else if (i.type.split('/')[0] == 'application') {
-              this.rapport.files.docs.push(this.downloadableURL)
+
+              if (i.type.split('/')[1] == 'pdf') {
+                this.rapport.files.docs.push({ link: this.downloadableURL, isPdf: true })
+              } else {
+                this.rapport.files.docs.push({ link: this.downloadableURL, isPdf: false })
+              }
+
             }
             
             else if (i.type.split('/')[0] == 'video') {
@@ -191,6 +197,20 @@ export class OneRapportComponent implements OnInit, AfterViewInit {
         }
       );
     }
+  }
+
+  removeFiles(type, index) {
+    if (type == 'image') {
+      this.rapport.files.images.splice(index, 1)
+    } else if (type == 'doc') {
+      this.rapport.files.docs.splice(index, 1)
+    } else if (type == 'audio') {
+      this.rapport.files.audios.splice(index, 1)
+    } else if ( type == 'video') {
+      this.rapport.files.videos.splice(index, 1)
+    }
+
+    this.updateRapprt();
   }
 
   upload(event) {

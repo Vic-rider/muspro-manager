@@ -42,6 +42,11 @@ export class DashboardComponent implements OnInit {
     this.displayUsersPercent()
     this.displayDistrict()
 	this.getDates();
+
+	if(!!localStorage.getItem('log')) {
+		localStorage.removeItem('log')
+		location.reload();
+	}
   }
 
   displayUsersPercent() {
@@ -128,7 +133,6 @@ export class DashboardComponent implements OnInit {
 		)
 	  ).subscribe(financement => {
 		this.allFinancement = financement;
-		console.log(financement)
 	  });
 
 	  this.partenaireService.getPartenaire().snapshotChanges().pipe(
@@ -139,7 +143,6 @@ export class DashboardComponent implements OnInit {
 		)
 	  ).subscribe(partenaire => {
 		this.allPartenaire = partenaire;
-		console.log(partenaire)
 	  });
 
 	  this.tacheronServices.getTacherons().snapshotChanges().pipe(
@@ -150,7 +153,6 @@ export class DashboardComponent implements OnInit {
 		)
 	  ).subscribe(tacheron => {
 		this.allTacherons = tacheron;
-		console.log(tacheron)
 	  });
 
 	  this.beneficiareService.getBeneficiaire().snapshotChanges().pipe(
@@ -161,7 +163,6 @@ export class DashboardComponent implements OnInit {
 		)
 	  ).subscribe(beneficiaire => {
 		this.allBeneficiaire = beneficiaire;
-		console.log(beneficiaire)
 	  });
   }
 

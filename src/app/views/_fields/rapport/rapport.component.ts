@@ -161,7 +161,13 @@ export class RapportComponent implements OnInit {
             }
             
             else if (i.type.split('/')[0] == 'application') {
-              this.rapport.files.docs.push(this.downloadableURL)
+
+              if (i.type.split('/')[1] == 'pdf') {
+                this.rapport.files.docs.push({ link: this.downloadableURL, isPdf: true })
+              } else {
+                this.rapport.files.docs.push({ link: this.downloadableURL, isPdf: false })
+              }
+
             }
             
             else if (i.type.split('/')[0] == 'video') {

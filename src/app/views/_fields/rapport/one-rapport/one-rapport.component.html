@@ -16,15 +16,15 @@
             </select>
           </div>
 
-          <div class="form-group col-md-4">
-           <label for="input-1">Description</label>
-           <textarea formControlName="desc" type="text" class="form-control" id="input-1" placeholder="Description du Rapport"></textarea>
-         </div>
-
          <div class="form-group col-md-4">
            <label for="input-1">Ajouter Fichiers</label>
            <input formControlName="files" type="file" multiple (change)="upload($event)" class="form-control" id="input-1" placeholder="Entrer le Code">
          </div>
+
+         <div class="form-group col-md-4">
+          <label for="input-1">Description</label>
+          <textarea formControlName="desc" type="text" class="form-control" id="input-1" placeholder="Description du Rapport"></textarea>
+        </div>
 
         </div>
     </form>
@@ -72,10 +72,12 @@
           <div class="card-body">
             <div class="row">
             
-              <div *ngFor="let img of rapport.files.images" class="col-md-6 col-lg-3 col-xl-3">
+              <div *ngFor="let img of rapport.files.images; let index = index" class="col-md-6 col-lg-3 col-xl-3 text-center">
                 <a href="{{img}}" data-fancybox="images" data-caption="This image has a caption">
                   <img src="{{img}}" alt="lightbox" class="lightbox-thumb img-thumbnail">
                 </a>
+
+                <a (click)="removeFiles('image', index)" href="javascript:void()" class="btn btn-danger"> Suprimer </a>
               </div>
 
               <div *ngIf="rapport.files.images.length == 0" class="col-md-12 text-center">
@@ -95,8 +97,10 @@
           <div class="card-body">
             <div class="row">
             
-              <div style="margin-left: 2em;" *ngFor="let son of rapport.files.audios" class="col-md-6 col-lg-3 col-xl-3">
+              <div style="margin-left: 2em;" *ngFor="let son of rapport.files.audios; let index = index" class=" text-center col-md-6 col-lg-3 col-xl-3">
                 <audio controls src="{{son}}"></audio>
+                
+                <a (click)="removeFiles('audio', index)" href="javascript:void()" class="btn btn-danger"> Suprimer </a>
               </div>
 
               <div *ngIf="rapport.files.audios.length == 0" class="col-md-12 text-center">
@@ -117,10 +121,11 @@
           <div class="card-body">
             <div class="row">
             
-              <div *ngFor="let vid of rapport.files.videos" class="col-md-6">
+              <div *ngFor="let vid of rapport.files.videos; let index = index" class="col-md-6 text-center">
                 <video controls width="550">
                     <source src="{{vid}}">
                 </video>
+                <a (click)="removeFiles('video', index)" href="javascript:void()" class="btn btn-danger"> Suprimer </a>
               </div>
 
               <div *ngIf="rapport.files.videos.length == 0" class="col-md-12 text-center">
@@ -142,13 +147,21 @@
             <div class="">
             
               <div *ngFor="let doc of rapport.files.docs; let index = index" class="col-md-12">
-                
-                <h4>Doc {{index + 1}}</h4>
-                <!-- <a href="http://example.org/ViewerJS/#{{doc | safe}}"></a> -->
-                <!-- <embed [src]="doc | safe" width="100%" height="600em"> -->
-                <!-- <doc-viewer-angular [url]="doc | safe" viewer="google" style="width:100%;height:50vh;"></doc-viewer-angular> -->
-                <iframe [src]="doc | safe" frameborder="0" width="100%" height="600em"></iframe>
-                <!-- <object [data]="doc | safe" width="100%" height="600em"></object> -->
+
+                <div *ngIf="doc.isPdf" class="text-center">
+
+                  <h4>Doc {{index + 1}}</h4>
+
+                  <!-- <a href="http://example.org/ViewerJS/#{{doc | safe}}"></a> -->
+                  <!-- <embed [src]="doc | safe" width="100%" height="600em"> -->
+                  <!-- <doc-viewer-angular [url]="doc | safe" viewer="google" style="width:100%;height:50vh;"></doc-viewer-angular> -->
+                  <iframe [src]="doc.link | safe" frameborder="0" width="100%" height="600em"></iframe>
+                  <!-- <object [data]="doc | safe" width="100%" height="600em"></object> -->
+
+                  <a (click)="removeFiles('doc', index)" href="javascript:void()" class="btn btn-danger"> Suprimer </a>
+
+                </div>
+
               </div>
 
               <div *ngIf="rapport.files.docs.length == 0" class="col-md-12 text-center">

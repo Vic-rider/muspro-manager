@@ -63,6 +63,7 @@ export class FinancementComponent implements OnInit {
   createForm() {
     this.financementForm = this.fb.group({
       code: [this.financement.code, Validators.required],
+      montant: [this.financement.montant, Validators.required],
       date_financement: [this.financement.date_financement, Validators.required],
       id_partenaire: [this.financement.id_partenaire, Validators.required],
 		});
@@ -79,6 +80,7 @@ export class FinancementComponent implements OnInit {
     }
 
     this.financement.code = controls.code.value;
+    this.financement.montant = controls.montant.value;
     this.financement.date_financement = controls.date_financement.value;
     this.financement.id_partenaire = controls.id_partenaire.value;
     this.financement.nom_partenaire = this.partenaire.nom + ' ' + this.partenaire.prenom;
@@ -122,6 +124,7 @@ export class FinancementComponent implements OnInit {
     }
 
     this.financement.code = controls.code.value;
+    this.financement.montant = controls.montant.value;
     this.financement.date_financement = controls.date_financement.value;
     this.financement.id_partenaire = controls.id_partenaire.value;
     this.financement.nom_partenaire = this.partenaire.nom + ' ' + this.partenaire.prenom;

@@ -1,8 +1,8 @@
 import { Project } from "./project";
 
 class docfile {
-    url: string;
-    ispdf: boolean
+    link: string;
+    isPdf: boolean
 }
 
 export class Rapport {

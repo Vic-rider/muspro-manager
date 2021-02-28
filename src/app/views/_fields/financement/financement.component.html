@@ -49,16 +49,18 @@
           <table class="table">
             <thead>
               <tr>
-                <th scope="col">Code</th>
+                <!-- <th scope="col">Code</th> -->
                 <th scope="col">Nom Partenaire</th>
+                <th scope="col">Montant</th>
                 <th scope="col">Date de Financement</th>
                 <th scope="col">Action</th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let financement of allFinancement">
-                <td>{{financement.code}}</td>
+                <!-- <td>{{financement.code}}</td> -->
                 <td>{{financement.nom_partenaire}}</td>
+                <td>{{financement.montant}} FCFA</td>
                 <td>{{financement.date_financement}}</td>
                 <td class="row" style="display: block;">
                   <div class="preview" style="padding: 0;">
@@ -121,10 +123,14 @@
                   <label for="input-1">Date du Financement</label>
                   <input formControlName="date_financement" type="date" class="form-control">
                 </div>
-                 <div class="form-group">
+                <div class="form-group">
+                  <label for="input-1">Montant</label>
+                  <input formControlName="montant" type="number" class="form-control">
+                </div>
+                 <!-- <div class="form-group">
                   <label for="input-1">Code</label>
                   <input formControlName="code" type="text" class="form-control" id="input-1" placeholder="Entrer le Code">
-                </div>
+                </div> -->
                  <div class="form-group">
                   <button style="float: right;" (click)="submit()" type="submit" class="btn btn-primary px-5"><i class="icon-drawer icons"></i>Sauvegarder</button>
                 </div>
@@ -158,10 +164,14 @@
                   <label for="input-1">Date du Financement</label>
                   <input formControlName="date_financement" type="date" class="form-control">
                 </div>
-                 <div class="form-group">
+                <div class="form-group">
+                  <label for="input-1">Montant</label>
+                  <input formControlName="montant" type="number" class="form-control">
+                </div>
+                 <!-- <div class="form-group">
                   <label for="input-1">Code</label>
                   <input formControlName="code" type="text" class="form-control" id="input-1" placeholder="Entrer le Code">
-                </div>
+                </div> -->
                  <div class="form-group">
                   <button style="float: right;" (click)="updateFinancement()" type="submit" class="btn btn-primary px-5"><i class="icon-note icons"></i>Modifier</button>
                 </div>
