@@ -36,13 +36,13 @@ export class LoginComponent implements OnInit, AfterViewInit {
     this._loader = true;
     this.logError = false;
 
-    console.log(this.user)
     this.authService.loginWithEmail(this.user.email, this.user.password)
     .then((user) => {
       this._loader = false;
       console.log(user)
       localStorage.setItem(environment.musproUserdetail, JSON.stringify(user.user))
       this._router.navigateByUrl('/');
+      localStorage.setItem('reload', '123')
     })
     .catch(error => {
       // console.log(error)

@@ -13,4 +13,5 @@ export class Project {
     pays: String;
     type: ProjectType;
     ville: String;
+    code: string;
 }

@@ -51,31 +51,71 @@
     <!-- Index2 js -->
     <script src="./assets/js/dashboard-service-support.js"></script>
 
-
-
-    <!-- FireBase Stuffs -->
-    <!-- The core Firebase JS SDK is always required and must be listed first -->
-    <script src="https://www.gstatic.com/firebasejs/8.2.6/firebase-app.js"></script>
-
-    <!-- TODO: Add SDKs for Firebase products that you want to use
-        https://firebase.google.com/docs/web/setup#available-libraries -->
-    <script src="https://www.gstatic.com/firebasejs/8.2.6/firebase-analytics.js"></script>
+    <!--Multi Select Js-->
+    <script src="./assets/plugins/jquery-multi-select/jquery.multi-select.js"></script>
+    <script src="./assets/plugins/jquery-multi-select/jquery.quicksearch.js"></script>
 
     <script>
-      // Your web app's Firebase configuration
-      // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-      var firebaseConfig = {
-        apiKey: "AIzaSyCroHcekDEY70x7ak1TxVFLGfCX7QIz3ik",
-        authDomain: "dmc-project-manager.firebaseapp.com",
-        projectId: "dmc-project-manager",
-        storageBucket: "dmc-project-manager.appspot.com",
-        messagingSenderId: "495585585652",
-        appId: "1:495585585652:web:f44878d755a5b30b6b31a1",
-        measurementId: "G-LPJ1FD43F0"
-      };
-      // Initialize Firebase
-      firebase.initializeApp(firebaseConfig);
-      firebase.analytics();
+      function multiselect() {
+        $(document).ready(function() {
+            $('.single-select').select2();
+
+            $('.multiple-select').select2();
+
+        //multiselect start
+
+            $('#my_multi_select1').multiSelect();
+            $('#my_multi_select2').multiSelect({
+                selectableOptgroup: true
+            });
+
+            $('#my_multi_select3').multiSelect({
+                selectableHeader: "<input type='text' class='form-control search-input' autocomplete='off' placeholder='search...'>",
+                selectionHeader: "<input type='text' class='form-control search-input' autocomplete='off' placeholder='search...'>",
+                afterInit: function (ms) {
+                    var that = this,
+                        $selectableSearch = that.$selectableUl.prev(),
+                        $selectionSearch = that.$selectionUl.prev(),
+                        selectableSearchString = '#' + that.$container.attr('id') + ' .ms-elem-selectable:not(.ms-selected)',
+                        selectionSearchString = '#' + that.$container.attr('id') + ' .ms-elem-selection.ms-selected';
+
+                    that.qs1 = $selectableSearch.quicksearch(selectableSearchString)
+                        .on('keydown', function (e) {
+                            if (e.which === 40) {
+                                that.$selectableUl.focus();
+                                return false;
+                            }
+                        });
+
+                    that.qs2 = $selectionSearch.quicksearch(selectionSearchString)
+                        .on('keydown', function (e) {
+                            if (e.which == 40) {
+                                that.$selectionUl.focus();
+                                return false;
+                            }
+                        });
+                },
+                afterSelect: function () {
+                    this.qs1.cache();
+                    this.qs2.cache();
+                },
+                afterDeselect: function () {
+                    this.qs1.cache();
+                    this.qs2.cache();
+                }
+            });
+
+         $('.custom-header').multiSelect({
+              selectableHeader: "<div class='custom-header'>Selectable items</div>",
+              selectionHeader: "<div class='custom-header'>Selection items</div>",
+              selectableFooter: "<div class='custom-header'>Selectable footer</div>",
+              selectionFooter: "<div class='custom-header'>Selection footer</div>"
+            });
+
+
+          });
+      }
     </script>
+
   </body>
 </html>

@@ -14,6 +14,11 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     this.displayUsersPercent()
     this.displayDistrict()
+
+    if (!!localStorage.getItem('reload')) {
+      location.reload();
+      localStorage.removeItem('reload')
+    }
   }
 
   displayUsersPercent() {

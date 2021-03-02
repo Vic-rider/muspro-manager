@@ -5,4 +5,5 @@ export class Partenaire {
     prenom: String;
     tel: String;
     ville: String;
+    financements: Array<any> = [];
 }

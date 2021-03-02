@@ -44,7 +44,7 @@ export class TypeProjectComponent implements OnInit {
 
   createForm() {
     this.projectTypeForm = this.fb.group({
-      code: [this.projectType.code, Validators.required],
+      // code: [this.projectType.code, Validators.required],
       nom: [this.projectType.nom, Validators.required],
 		});
   }
@@ -52,7 +52,7 @@ export class TypeProjectComponent implements OnInit {
   submit() {
     let controls = this.projectTypeForm.controls;
 
-    this.projectType.code = controls.code.value;
+    // this.projectType.code = controls.code.value;
     this.projectType.nom = controls.nom.value;
 
     this.projetTypeService.addProjectType(this.projectType);
@@ -86,7 +86,7 @@ export class TypeProjectComponent implements OnInit {
   updateProjectType() {
     let controls = this.projectTypeForm.controls;
 
-    this.projectType.code = controls.code.value;
+    // this.projectType.code = controls.code.value;
     this.projectType.nom = controls.nom.value;
 
     this.projetTypeService.updateProjectType(this.projectType.key, this.projectType);

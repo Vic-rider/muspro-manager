@@ -10,4 +10,5 @@ export class Beneficiaire {
     pays: String;
     quartier: String;
     ville: String;
+    projets: Array<any> = [];
 }

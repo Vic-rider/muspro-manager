@@ -4,4 +4,9 @@ export class Rapport {
     envoyer: boolean;
     id_project: String;
     valid: boolean;
+    files: {
+      images: [],
+      videos: [],
+      audios: []
+    }
 }
