@@ -13,7 +13,7 @@ export class AuthService {
 
   constructor(private afAuth: AngularFireAuth, private router: Router) {
     this.afAuth.authState.subscribe((auth) => {
-      this.authState = auth
+      this.authState = auth;
     });
   }
 
@@ -39,6 +39,10 @@ export class AuthService {
     } else {
       return false
     }
+  }
+
+  getAllUsers() {
+    
   }
 
   signUpWithEmail(email: string, password: string) {

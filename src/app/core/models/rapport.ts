@@ -1,12 +1,23 @@
+import { Project } from "./project";
+
+class docfile {
+    link: string;
+    isPdf: boolean
+}
+
 export class Rapport {
+    key: string;
     code: String;
+    projet = new Project();
     date_rapport: Date;
-    envoyer: boolean;
+    desc: string;
+    envoyer: number;
     id_project: String;
-    valid: boolean;
-    files: {
-      images: [],
-      videos: [],
-      audios: []
+    valid: number;
+    files = {
+        audios: [],
+        images: [],
+        videos: [],
+        docs: []
     }
 }

@@ -149,8 +149,36 @@ export class ProjectComponent implements OnInit  {
     this.updateloader = false;
   }
 
-  getprojectType() {
+  viewtoremove(projectKey) {
+    for( const project of this.allProjects) {
+      if (project.key == projectKey) {
+        this.project = project
+      }
+    }
 
+    console.log(this.project);
+    this.createForm();
+    document.getElementById('open_remove_modal').click();
+  }
+
+  finichProject() {
+    this.updateloader = true;
+    let controls = this.projectForm.controls;
+    this.project.date_finition = controls.date_finition.value;
+
+    console.log(this.project)
+    this.projetService.updateProjet(this.project.key, this.project);
+
+    Swal.fire({
+      position: 'top-end',
+      title: 'Projet Terminé !',
+      showConfirmButton: false,
+      timer: 1500
+    })
+
+    //close modal and clean form
+    document.getElementById('close_remove_modal').click();
+    this.updateloader = false;
   }
 
   deleteProject(projectKey) {

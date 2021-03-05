@@ -34,7 +34,7 @@
 
           <div class="col-sm-3">
             <div class="float-sm-right">
-              <button (click)="initForm()" type="button" class="btn btn-light waves-effect waves-light" data-toggle="modal" data-target="#formemodal"><i class="zmdi zmdi-directions-walk"></i>&emsp; Nouveau Tâcheron</button>
+              <button (click)="initForm()" type="button" class="btn btn-light waves-effect waves-light" data-toggle="modal" data-target="#formemodal"><i class="zmdi zmdi-directions-walk"></i>&emsp; Nouveau Financement</button>
               <button style="visibility: hidden;" type="button" id="open_update_modal" class="btn btn-light waves-effect waves-light" data-toggle="modal" data-target="#updatemodal"></button>
             </div>
 
@@ -49,17 +49,21 @@
           <table class="table">
             <thead>
               <tr>
-                <th scope="col">Code</th>
-                <th scope="col">Nom Partenaire</th>
-                <th scope="col">Date de Financement</th>
+                <!-- <th scope="col">Code</th> -->
+                <th scope="col">Nom Financement</th>
+                <th scope="col">Partenaire - Montant - Date de Financement</th>
                 <th scope="col">Action</th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let financement of allFinancement">
-                <td>{{financement.code}}</td>
-                <td>{{financement.nom_partenaire}}</td>
-                <td>{{financement.date_financement}}</td>
+                <!-- <td>{{financement.code}}</td> -->
+                <td>{{financement.nom}}</td>
+                <td>
+                  <p *ngFor="let partner of financement.partenaires">
+                    {{partner.partenaire.prenom}} {{partner.partenaire.nom}} -- {{partner.montant}} FCFA -- {{partner.date_financement | date}}
+                  </p>
+                </td>
                 <td class="row" style="display: block;">
                   <div class="preview" style="padding: 0;">
                     <a (click)="viewFinancement(financement.key)" href="javascript:void();" title="Voir">
@@ -72,7 +76,7 @@
                 </td>
               </tr>
               <tr>
-                <td colspan="5" class="text-center">
+                <td colspan="3" class="text-center">
                   <div *ngIf="_loader" class="spinner-border spinner-border-sm text-secondary mr-2" role="status" style="width: 2rem; height: 2rem;">
                     <span class="sr-only">Loading...</span>
                   </div>
@@ -101,7 +105,7 @@
 
 <!-- Modal -->
 <div style="margin-top: 5em;" class="modal fade" id="formemodal">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-lg">
       <div class="modal-content">
           <div class="modal-header">
             <h3 class="modal-title">Ajouter un nouveau Financement</h3>
@@ -110,25 +114,97 @@
             </button>
           </div>
           <div class="modal-body">
-              <form [formGroup]="financementForm">
                  <div class="form-group">
-                   <label for="input-1">Partenaire</label>
-                   <select formControlName="id_partenaire" class="form-control" id="input-1" name="" id="">
-                     <option *ngFor="let patenaire of allPartenaire" value="{{patenaire.key}}">{{patenaire.nom}} {{patenaire.prenom}}</option>
-                   </select>
+                   <label for="input-1">Nom</label>
+                   <form [formGroup]="financementForm">
+                     <input formControlName="nom" type="text" class="form-control">
+                   </form>
                  </div>
+
+                 <table class="table" *ngIf="addFinancement.partenaires.length > 0">
+                  <thead>
+                    <tr>
+                      <th scope="col">Nom Partenaire</th>
+                      <th scope="col">Montant</th>
+                      <th scope="col">Date de Financement</th>
+                      <th scope="col">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let financement of addFinancement.partenaires; let index = index">
+
+                      <td *ngIf="financement.edit">
+                        <form [formGroup]="financementEditForm">
+                          <select formControlName="editid_partenaire" class="form-control" id="input-1" name="" id="">
+                            <option *ngFor="let patenaire of allPartenaire" value="{{patenaire.key}}">{{patenaire.nom}} {{patenaire.prenom}}</option>
+                          </select>
+                        </form>
+                      </td>
+                      <td *ngIf="!financement.edit">{{financement.partenaire.prenom}} {{financement.partenaire.nom}}</td>
+
+                      <td *ngIf="financement.edit">
+                        <form [formGroup]="financementEditForm">
+                            <input formControlName="editmontant" type="number" class="form-control">
+                        </form>
+                      </td>
+                      <td *ngIf="!financement.edit">{{financement.montant}} FCFA</td>
+
+                      <td *ngIf="financement.edit">
+                        <form [formGroup]="financementEditForm">
+                            <input formControlName="editdate_financement" type="date" class="form-control">
+                        </form>
+                      </td>
+                      <td *ngIf="!financement.edit">{{financement.date_financement}}</td>
+
+                      <td class="row" style="display: block;">
+                        <div class="preview" style="padding: 0;">
+                          <a *ngIf="!financement.edit" (click)="editPartner(index)" href="javascript:void();" title="Editer">
+                            <i class="icon-note icons"></i>
+                          </a>
+                          <a *ngIf="!financement.edit" (click)="removePatner(index)" href="javascript:void();" title="Supprimer">
+                            <i class="icon-trash icons"></i>
+                          </a>
+                          <a *ngIf="financement.edit" (click)="validEditedPartner(index)" href="javascript:void();" title="Valider">
+                            <i class="icon-check icons"></i>
+                          </a>
+                          <a *ngIf="financement.edit" (click)="closeEditPartner(index)" href="javascript:void();" title="Fermer">
+                            <i class="icon-close icons"></i>
+                          </a>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+
+                <form [formGroup]="financementForm">
+                  <div class="row">
+                    <div class="col-xl-4 form-group">
+                      <label for="input-1">Partenaire</label>
+                      <select formControlName="id_partenaire" class="form-control" id="input-1" name="" id="">
+                        <option *ngFor="let patenaire of allPartenaire" value="{{patenaire.key}}">{{patenaire.nom}} {{patenaire.prenom}}</option>
+                      </select>
+                    </div>
+
+                    <div class="col-xl-3 form-group">
+                      <label for="input-1">Montant</label>
+                      <input formControlName="montant" type="number" class="form-control">
+                    </div>
+
+                    <div class="col-xl-3 form-group">
+                      <label for="input-1">Date du Financement</label>
+                      <input formControlName="date_financement" type="date" class="form-control">
+                    </div>
+
+                    <div class="form-group col-xl-2">
+                      <button style="margin-top: 2.8em;" (click)="addPartner()" type="submit" class="btn btn-success">save</button>
+                    </div>
+
+                   </div>
+                </form>
+
                  <div class="form-group">
-                  <label for="input-1">Date du Financement</label>
-                  <input formControlName="date_financement" type="date" class="form-control">
+                  <button style="float: right;" (click)="submit()" type="submit" class="btn btn-primary px-5"><i class="icon-drawer icons"></i>Sauvegarder</button>
                 </div>
-                 <div class="form-group">
-                  <label for="input-1">Code</label>
-                  <input formControlName="code" type="text" class="form-control" id="input-1" placeholder="Entrer le Code">
-                </div>
-                 <div class="form-group">
-                  <button (click)="submit()" type="submit" class="btn btn-primary px-5"><i class="icon-drawer icons"></i>Sauvegarder</button>
-                </div>
-            </form>
           </div>
       </div>
   </div>
@@ -138,7 +214,7 @@
 
 <!-- Modal -->
 <div style="margin-top: 5em;" class="modal fade" id="updatemodal">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-lg">
       <div class="modal-content">
           <div class="modal-header">
             <h3 class="modal-title">Modifier un Financement</h3>
@@ -147,25 +223,97 @@
             </button>
           </div>
           <div class="modal-body">
+            <div class="form-group">
+              <label for="input-1">Nom</label>
               <form [formGroup]="financementForm">
-                <div class="form-group">
-                  <label for="input-1">Partenaire</label>
-                  <select formControlName="id_partenaire" class="form-control" id="input-1" name="" id="">
-                    <option *ngFor="let patenaire of allPartenaire" value="{{patenaire.key}}">{{patenaire.nom}} {{patenaire.prenom}}</option>
-                  </select>
-                </div>
-                 <div class="form-group">
-                  <label for="input-1">Date du Financement</label>
-                  <input formControlName="date_financement" type="date" class="form-control">
-                </div>
-                 <div class="form-group">
-                  <label for="input-1">Code</label>
-                  <input formControlName="code" type="text" class="form-control" id="input-1" placeholder="Entrer le Code">
-                </div>
-                 <div class="form-group">
-                  <button (click)="updateFinancement()" type="submit" class="btn btn-primary px-5"><i class="icon-note icons"></i>Modifier</button>
-                </div>
-            </form>
+                <input formControlName="nom" type="text" class="form-control">
+              </form>
+            </div>
+
+            <table class="table" *ngIf="addFinancement.partenaires.length > 0">
+             <thead>
+               <tr>
+                 <th scope="col">Nom Partenaire</th>
+                 <th scope="col">Montant</th>
+                 <th scope="col">Date de Financement</th>
+                 <th scope="col">Action</th>
+               </tr>
+             </thead>
+             <tbody>
+               <tr *ngFor="let financement of addFinancement.partenaires; let index = index">
+
+                 <td *ngIf="financement.edit">
+                   <form [formGroup]="financementEditForm">
+                     <select formControlName="editid_partenaire" class="form-control" id="input-1" name="" id="">
+                       <option *ngFor="let patenaire of allPartenaire" value="{{patenaire.key}}">{{patenaire.nom}} {{patenaire.prenom}}</option>
+                     </select>
+                   </form>
+                 </td>
+                 <td *ngIf="!financement.edit">{{financement.partenaire.prenom}} {{financement.partenaire.nom}}</td>
+
+                 <td *ngIf="financement.edit">
+                   <form [formGroup]="financementEditForm">
+                       <input formControlName="editmontant" type="number" class="form-control">
+                   </form>
+                 </td>
+                 <td *ngIf="!financement.edit">{{financement.montant}} FCFA</td>
+
+                 <td *ngIf="financement.edit">
+                   <form [formGroup]="financementEditForm">
+                       <input formControlName="editdate_financement" type="date" class="form-control">
+                   </form>
+                 </td>
+                 <td *ngIf="!financement.edit">{{financement.date_financement}}</td>
+
+                 <td class="row" style="display: block;">
+                   <div class="preview" style="padding: 0;">
+                     <a *ngIf="!financement.edit" (click)="editPartner(index)" href="javascript:void();" title="Editer">
+                       <i class="icon-note icons"></i>
+                     </a>
+                     <a *ngIf="!financement.edit" (click)="removePatner(index)" href="javascript:void();" title="Supprimer">
+                       <i class="icon-trash icons"></i>
+                     </a>
+                     <a *ngIf="financement.edit" (click)="validEditedPartner(index)" href="javascript:void();" title="Valider">
+                       <i class="icon-check icons"></i>
+                     </a>
+                     <a *ngIf="financement.edit" (click)="closeEditPartner(index)" href="javascript:void();" title="Fermer">
+                       <i class="icon-close icons"></i>
+                     </a>
+                   </div>
+                 </td>
+               </tr>
+             </tbody>
+           </table>
+
+           <form [formGroup]="financementForm">
+             <div class="row">
+               <div class="col-xl-4 form-group">
+                 <label for="input-1">Partenaire</label>
+                 <select formControlName="id_partenaire" class="form-control" id="input-1" name="" id="">
+                   <option *ngFor="let patenaire of allPartenaire" value="{{patenaire.key}}">{{patenaire.nom}} {{patenaire.prenom}}</option>
+                 </select>
+               </div>
+
+               <div class="col-xl-3 form-group">
+                 <label for="input-1">Montant</label>
+                 <input formControlName="montant" type="number" class="form-control">
+               </div>
+
+               <div class="col-xl-3 form-group">
+                 <label for="input-1">Date du Financement</label>
+                 <input formControlName="date_financement" type="date" class="form-control">
+               </div>
+
+               <div class="form-group col-xl-2">
+                 <button style="margin-top: 2.8em;" (click)="addPartner()" type="submit" class="btn btn-success">save</button>
+               </div>
+
+              </div>
+           </form>
+
+            <div class="form-group">
+              <button style="float: right;" (click)="updateFinancement()" type="submit" class="btn btn-primary px-5"><i class="icon-note icons"></i>Modifier</button>
+            </div>
           </div>
       </div>
   </div>

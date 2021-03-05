@@ -1,5 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { Chart } from 'node_modules/chart.js'
+import { Beneficiaire } from '../../../core/models/beneficiaire';
+import { Financement } from '../../../core/models/financement';
+import { Partenaire } from '../../../core/models/partenaire';
+import { Project } from '../../../core/models/project';
+import { Tacherons } from '../../../core/models/tacherons';
+import {map} from 'rxjs/operators'
+import { ProjectService } from '../../../core/services/project.service';
+import { FinancementService } from '../../../core/services/financement.service';
+import { PartenaireService } from '../../../core/services/partenaire.service';
+import { TacheronsService } from '../../../core/services/tacherons.service';
+import { BenéficiareService } from '../../../core/services/benéficiare.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -9,16 +20,33 @@ export class DashboardComponent implements OnInit {
 
   date = new Date();
 
-  constructor() { }
+  allProjects: Array<Project> = [];
+  allProjetWaiting: Array<Project> = [];
+  allProjetpending: Array<Project> = [];
+
+  allBeneficiaire: Array<Beneficiaire> = [];
+  allFinancement: Array<Financement> = [];
+  allTacherons: Array<Tacherons> = [];
+  allPartenaire: Array<Partenaire> = [];
+
+  constructor(
+	  private projetService: ProjectService,
+	  private financementService: FinancementService,
+	  private partenaireService: PartenaireService,
+	  private tacheronServices: TacheronsService,
+	  private beneficiareService: BenéficiareService,
+
+  ) { }
 
   ngOnInit(): void {
     this.displayUsersPercent()
     this.displayDistrict()
+	this.getDates();
 
-    if (!!localStorage.getItem('reload')) {
-      location.reload();
-      localStorage.removeItem('reload')
-    }
+	if(!!localStorage.getItem('log')) {
+		localStorage.removeItem('log')
+		location.reload();
+	}
   }
 
   displayUsersPercent() {
@@ -76,6 +104,66 @@ export class DashboardComponent implements OnInit {
 				responsive: true,
 			   }
 			});
+  }
+
+  getDates() {
+	this.projetService.getProject().snapshotChanges().pipe(
+		map(changes =>
+		  changes.map(c =>
+			({ key: c.payload.doc.id, ...c.payload.doc.data() })
+		  )
+		)
+	  ).subscribe(projet => {
+		this.allProjects = projet;
+
+		for (const p of this.allProjects) {
+			if (!p.date_finition) {
+				this.allProjetpending.push(p)
+			} else if (!p.date_lancement) {
+				this.allProjetWaiting.push(p)
+			}
+		}
+	  });
+
+	  this.financementService.getFinancement().snapshotChanges().pipe(
+		map(changes =>
+		  changes.map(c =>
+			({ key: c.payload.doc.id, ...c.payload.doc.data() })
+		  )
+		)
+	  ).subscribe(financement => {
+		this.allFinancement = financement;
+	  });
+
+	  this.partenaireService.getPartenaire().snapshotChanges().pipe(
+		map(changes =>
+		  changes.map(c =>
+			({ key: c.payload.doc.id, ...c.payload.doc.data() })
+		  )
+		)
+	  ).subscribe(partenaire => {
+		this.allPartenaire = partenaire;
+	  });
+
+	  this.tacheronServices.getTacherons().snapshotChanges().pipe(
+		map(changes =>
+		  changes.map(c =>
+			({ key: c.payload.doc.id, ...c.payload.doc.data() })
+		  )
+		)
+	  ).subscribe(tacheron => {
+		this.allTacherons = tacheron;
+	  });
+
+	  this.beneficiareService.getBeneficiaire().snapshotChanges().pipe(
+		map(changes =>
+		  changes.map(c =>
+			({ key: c.payload.doc.id, ...c.payload.doc.data() })
+		  )
+		)
+	  ).subscribe(beneficiaire => {
+		this.allBeneficiaire = beneficiaire;
+	  });
   }
 
 }

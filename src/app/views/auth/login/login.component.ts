@@ -41,6 +41,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
       this._loader = false;
       console.log(user)
       localStorage.setItem(environment.musproUserdetail, JSON.stringify(user.user))
+      localStorage.setItem('log', '11')
       this._router.navigateByUrl('/');
       localStorage.setItem('reload', '123')
     })
