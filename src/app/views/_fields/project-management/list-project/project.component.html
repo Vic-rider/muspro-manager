@@ -51,6 +51,7 @@
               <thead>
                 <tr>
                   <th scope="col">Nom</th>
+                  <th scope="col">Code</th>
                   <th scope="col">Date de Lancement</th>
                   <th scope="col">Coût</th>
                   <th scope="col">Type de Projet</th>
@@ -64,6 +65,7 @@
               <tbody>
                 <tr *ngFor="let projet of allProjects">
                   <td>{{projet.nom}}</td>
+                  <td>{{projet.key}}</td>
                   <td>{{projet.date_lancement}}</td>
                   <td>{{projet.montant}} FCFA</td>
                   <td>{{projet.type}}</td>
@@ -86,7 +88,7 @@
                   </td>
                 </tr>
                 <tr>
-                  <td colspan="9" class="text-center">
+                  <td colspan="10" class="text-center">
                     <div *ngIf="_loader" class="spinner-border spinner-border-sm text-secondary mr-2" role="status" style="width: 2rem; height: 2rem;">
                       <span class="sr-only">Loading...</span>
                     </div>
@@ -254,9 +256,7 @@
                     <div class="form-group">
                       <label>Type de Projet</label>
                       <select formControlName="type" class="form-control single-select">
-                          <option>Humanitaire</option>
-                          <option>Education</option>
-                          <option>Santé</option>
+                          <option *ngFor="let type of allProjectsType" value="{{type.nom}}">{{type.nom}}</option>
                       </select>
                     </div>
                   </div>

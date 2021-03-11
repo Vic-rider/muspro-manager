@@ -36,7 +36,6 @@ export class LoginComponent implements OnInit, AfterViewInit {
     this._loader = true;
     this.logError = false;
 
-    console.log(this.user)
     this.authService.loginWithEmail(this.user.email, this.user.password)
     .then((user) => {
       this._loader = false;
@@ -44,6 +43,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
       localStorage.setItem(environment.musproUserdetail, JSON.stringify(user.user))
       localStorage.setItem('log', '11')
       this._router.navigateByUrl('/');
+      localStorage.setItem('reload', '123')
     })
     .catch(error => {
       // console.log(error)

@@ -15,6 +15,8 @@ export class FinancementComponent implements OnInit {
 
   _loader = false;
   financementForm: FormGroup;
+  financementEditForm: FormGroup;
+  addFinancement = new Financement();
   financement = new Financement();
   allFinancement: Array<Financement> = [];
   partenaire = new Partenaire();
@@ -57,37 +59,101 @@ export class FinancementComponent implements OnInit {
 
   initForm() {
     this.financement = new Financement();
+    this.addFinancement = new Financement();
     this.createForm();
   }
 
   createForm() {
     this.financementForm = this.fb.group({
-      code: [this.financement.code, Validators.required],
-      montant: [this.financement.montant, Validators.required],
-      date_financement: [this.financement.date_financement, Validators.required],
-      id_partenaire: [this.financement.id_partenaire, Validators.required],
+      nom: [this.financement.nom, Validators.required],
+      montant: [null, Validators.required],
+      date_financement: [null, Validators.required],
+      id_partenaire: [null, Validators.required]
 		});
+
+
+    this.financementEditForm = this.fb.group({
+      editmontant: [null, Validators.required],
+      editdate_financement: [null, Validators.required],
+      editid_partenaire: [null, Validators.required],
+		});
+
+  }
+
+  removePatner(index) {
+    this.addFinancement.partenaires.splice(index, 1)
+  }
+
+  validEditedPartner(index) {
+    let controls = this.financementEditForm.controls;
+
+    for( const partenaire of this.allPartenaire) {
+      if (partenaire.key == controls.editid_partenaire.value) {
+
+        let partner = {
+          partenaire: partenaire,
+          montant: controls.editmontant.value,
+          date_financement: controls.editdate_financement.value,
+          edit: false,
+        }
+
+        this.addFinancement.partenaires[index] = partner;
+      }
+    }
+  }
+
+  editPartner(index) {
+    this.addFinancement.partenaires[index].edit = true;
+
+    console.log(this.addFinancement.partenaires[index])
+
+    this.financementEditForm = this.fb.group({
+      editmontant: [this.addFinancement.partenaires[index].montant, Validators.required],
+      editdate_financement: [this.addFinancement.partenaires[index].date_financement, Validators.required],
+      editid_partenaire: [this.addFinancement.partenaires[index].partenaire.key, Validators.required],
+		});
+
+  }
+
+  closeEditPartner(index) {
+    this.addFinancement.partenaires[index].edit = false;
+  }
+
+  addPartner() {
+    let controls = this.financementForm.controls;
+
+    for( const partenaire of this.allPartenaire) {
+      if (partenaire.key == controls.id_partenaire.value) {
+        let partner = {
+          partenaire: partenaire,
+          montant: controls.montant.value,
+          date_financement: controls.date_financement.value,
+          edit: false,
+        }
+
+        this.addFinancement.partenaires.push(partner)
+      }
+    }
+
+    this.financementForm = this.fb.group({
+      nom: [controls.nom.value, Validators.required],
+      montant: [null, Validators.required],
+      date_financement: [null, Validators.required],
+      id_partenaire: [null, Validators.required],
+		});
+
   }
 
   submit() {
     let controls = this.financementForm.controls;
 
-    //select the choseen partenaire
-    for( const partenaire of this.allPartenaire) {
-      if (partenaire.key == controls.id_partenaire.value) {
-        this.partenaire = partenaire
-      }
-    }
+    this.financement.nom = controls.nom.value;
+    this.financement.partenaires = this.addFinancement.partenaires;
 
-    this.financement.code = controls.code.value;
-    this.financement.montant = controls.montant.value;
-    this.financement.date_financement = controls.date_financement.value;
-    this.financement.id_partenaire = controls.id_partenaire.value;
-    this.financement.nom_partenaire = this.partenaire.nom + ' ' + this.partenaire.prenom;
+    console.log(this.financement)
+    this.addFinancement = new Financement();
 
     this.financementService.addFinancement(this.financement);
-
-
 
     Swal.fire({
       position: 'top-end',
@@ -106,30 +172,30 @@ export class FinancementComponent implements OnInit {
     for( const financement of this.allFinancement) {
       if (financement.key == financementKey) {
         this.financement = financement
+        this.addFinancement = this.financement;
       }
     }
 
     console.log(this.financement);
-    this.createForm();
+
+    this.financementForm = this.fb.group({
+      nom: [this.financement.nom, Validators.required],
+      montant: [null, Validators.required],
+      date_financement: [null, Validators.required],
+      id_partenaire: [null, Validators.required]
+		});
+
     document.getElementById('open_update_modal').click();
   }
 
   updateFinancement() {
     let controls = this.financementForm.controls;
 
-    for( const partenaire of this.allPartenaire) {
-      if (partenaire.key == controls.id_partenaire.value) {
-        this.partenaire = partenaire
-      }
-    }
-
-    this.financement.code = controls.code.value;
-    this.financement.montant = controls.montant.value;
-    this.financement.date_financement = controls.date_financement.value;
-    this.financement.id_partenaire = controls.id_partenaire.value;
-    this.financement.nom_partenaire = this.partenaire.nom + ' ' + this.partenaire.prenom;
+    this.financement.nom = controls.nom.value;
+    this.financement.partenaires = this.addFinancement.partenaires;
 
     console.log(this.financement)
+    this.addFinancement = new Financement();
 
     this.financementService.updateFinancement(this.financement.key, this.financement);
 

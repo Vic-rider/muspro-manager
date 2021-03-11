@@ -1,10 +1,10 @@
+import { Rapport } from './../models/rapport';
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase, AngularFireList } from '@angular/fire/database';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { FileUpload } from '../models/fileUpload';
 import * as firebase from 'firebase';
 import 'firebase/storage';
-import { Rapport } from '../models/rapport';
 
 @Injectable({
   providedIn: 'root'
@@ -19,19 +19,19 @@ export class RapportService {
       private db: AngularFireDatabase) {
         this.rapportCollection = firedb.collection('/rapport');
        }
-  
+
     addRapport(rapport: Rapport){
       this.rapportCollection.add({...rapport});
     }
-  
+
     getRapport(): AngularFirestoreCollection<Rapport>{
       return this.rapportCollection;
     }
-  
+
     updateRapport(key: string, value: any): Promise<void> {
       return this.rapportCollection.doc(key).update(value);
     }
-  
+
     deleteRapport(key: string): Promise<void> {
       return this.rapportCollection.doc(key).delete();
     }

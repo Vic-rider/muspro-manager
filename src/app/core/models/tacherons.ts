@@ -5,4 +5,5 @@ export class Tacherons {
     prenom: String;
     tel: String;
     ville: String;
+    projets: Array<any> = [];
 }

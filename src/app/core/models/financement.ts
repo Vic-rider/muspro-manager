@@ -1,8 +1,13 @@
+import { Partenaire } from './partenaire';
+
+class Partner {
+  partenaire: Partenaire;
+  montant: number;
+  date_financement: string;
+  edit: boolean;
+}
 export class Financement {
-    key: string;
-    code: String;
-    date_financement: Date;
-    id_partenaire: String;
-    nom_partenaire: string;
-    montant: number;
+  key:string;
+  nom: string;
+  partenaires: Array<Partner> = [];
 }

@@ -1,5 +1,5 @@
 export class ProjectType {
     key: string;
-    code: String;
+    // code: String;
     nom: String;
 }

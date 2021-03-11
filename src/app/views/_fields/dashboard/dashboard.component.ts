@@ -1,16 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { Chart } from 'node_modules/chart.js'
-import { Beneficiaire } from 'src/app/core/models/beneficiaire';
-import { Financement } from 'src/app/core/models/financement';
-import { Partenaire } from 'src/app/core/models/partenaire';
-import { Project } from 'src/app/core/models/project';
-import { Tacherons } from 'src/app/core/models/tacherons';
+import { Beneficiaire } from '../../../core/models/beneficiaire';
+import { Financement } from '../../../core/models/financement';
+import { Partenaire } from '../../../core/models/partenaire';
+import { Project } from '../../../core/models/project';
+import { Tacherons } from '../../../core/models/tacherons';
 import {map} from 'rxjs/operators'
-import { ProjectService } from 'src/app/core/services/project.service';
-import { FinancementService } from 'src/app/core/services/financement.service';
-import { PartenaireService } from 'src/app/core/services/partenaire.service';
-import { TacheronsService } from 'src/app/core/services/tacherons.service';
-import { BenéficiareService } from 'src/app/core/services/benéficiare.service';
+import { ProjectService } from '../../../core/services/project.service';
+import { FinancementService } from '../../../core/services/financement.service';
+import { PartenaireService } from '../../../core/services/partenaire.service';
+import { TacheronsService } from '../../../core/services/tacherons.service';
+import { BenéficiareService } from '../../../core/services/benéficiare.service';
 
 @Component({
   selector: 'app-dashboard',
