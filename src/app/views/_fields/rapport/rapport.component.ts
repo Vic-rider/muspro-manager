@@ -85,6 +85,7 @@ export class RapportComponent implements OnInit {
   }
 
   submit() {
+    this.addloader = true;
     console.log(this.rapport)
     let controls = this.rapportForm.controls;
 
@@ -144,9 +145,17 @@ export class RapportComponent implements OnInit {
   uploadFiles(){
     console.log(this.filePath)
     let index = 0;
-    this.addloader = true;
 
     for (const i of this.filePath) {
+
+      // if(i.size > (1024*20)) {
+      //   Swal.fire({
+      //     icon: 'error',
+      //     title: 'Oops...',
+      //     text: `la taile du fichier ${i.name} dépasse 20MB`,
+      //   })
+      //   continue
+      // }
       
       this.afStorage.upload('/rapport-'+ new Date().getTime(), i).then(
         (res) => {

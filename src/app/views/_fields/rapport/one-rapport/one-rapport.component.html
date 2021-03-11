@@ -125,7 +125,7 @@
                 <video controls width="550">
                     <source src="{{vid}}">
                 </video>
-                <a (click)="removeFiles('video', index)" href="javascript:void()" class="btn btn-danger"> Suprimer </a>
+                <a (click)="removeFiles('video', index)" style="margin-top: 1em;" href="javascript:void()" class="btn btn-danger"> Suprimer </a>
               </div>
 
               <div *ngIf="rapport.files.videos.length == 0" class="col-md-12 text-center">

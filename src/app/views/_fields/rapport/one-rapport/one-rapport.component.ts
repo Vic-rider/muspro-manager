@@ -118,6 +118,7 @@ export class OneRapportComponent implements OnInit, AfterViewInit {
   }
 
   submit() {
+    this.addloader = true;
     console.log(this.rapport)
     let controls = this.rapportForm.controls;
 
@@ -147,9 +148,17 @@ export class OneRapportComponent implements OnInit, AfterViewInit {
   uploadFiles() {
     console.log(this.filePath)
     let index = 0;
-    this.addloader = true;
 
     for (const i of this.filePath) {
+
+      // if(i.size > (1024*20)) {
+      //   Swal.fire({
+      //     icon: 'error',
+      //     title: 'Oops...',
+      //     text: `la taile du fichier ${i.name} dépasse 20MB`,
+      //   })
+      //   continue
+      // }
       
       this.afStorage.upload('/rapport-'+ new Date().getTime(), i).then(
         (res) => {
@@ -214,8 +223,9 @@ export class OneRapportComponent implements OnInit, AfterViewInit {
   }
 
   upload(event) {
-    console.log(event)
+    // console.log(event)
     this.filePath = event.target.files
+    console.log(this.filePath)
   }
 
 }
