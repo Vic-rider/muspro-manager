@@ -50,8 +50,6 @@
             <thead>
               <tr>
                 <th scope="col">Nom</th>
-                <th scope="col">Prénom</th>
-                <th scope="col">Code</th>
                 <th scope="col">Teléphone</th>
                 <th scope="col">Ville</th>
                 <th scope="col">Action</th>
@@ -60,8 +58,6 @@
             <tbody>
               <tr *ngFor="let partenaire of allPartenaire">
                 <td>{{partenaire.nom}}</td>
-                <td>{{partenaire.prenom}}</td>
-                <td>{{partenaire.code}}</td>
                 <td>{{partenaire.tel}}</td>
                 <td>{{partenaire.ville}}</td>
                 <td class="row" style="display: block;">
@@ -119,14 +115,6 @@
                    <label for="input-1">Nom</label>
                    <input formControlName="nom" type="text" class="form-control" id="input-1" placeholder="Entrer le Nom du Partenaire">
                  </div>
-                 <div class="form-group">
-                  <label for="input-1">Prénom</label>
-                  <input formControlName="prenom" type="text" class="form-control" id="input-1" placeholder="Entrer le Prénom du Partenaire">
-                </div>
-                 <div class="form-group">
-                  <label for="input-1">Code</label>
-                  <input formControlName="code" type="text" class="form-control" id="input-1" placeholder="Entrer le Code">
-                </div>
                 <div class="form-group">
                   <label for="input-1">Téléphone</label>
                   <input formControlName="tel" type="text" class="form-control" id="input-1" placeholder="Entrer le tléphone du Partenaire">
@@ -161,14 +149,6 @@
                       <label for="input-1">Nom</label>
                       <input formControlName="nom" type="text" class="form-control" id="input-1" placeholder="Entrer le Nom du Partenaire">
                     </div>
-                    <div class="form-group">
-                    <label for="input-1">Prénom</label>
-                    <input formControlName="prenom" type="text" class="form-control" id="input-1" placeholder="Entrer le Prénom du Partenaire">
-                  </div>
-                    <div class="form-group">
-                    <label for="input-1">Code</label>
-                    <input formControlName="code" type="text" class="form-control" id="input-1" placeholder="Entrer le Code">
-                  </div>
                   <div class="form-group">
                     <label for="input-1">Téléphone</label>
                     <input formControlName="tel" type="text" class="form-control" id="input-1" placeholder="Entrer le tléphone du Partenaire">

@@ -47,9 +47,7 @@ export class PartenairesComponent implements OnInit  {
 
   createForm() {
     this.partenaireForm = this.fb.group({
-      code: [this.partenaire.code, Validators.required],
       nom: [this.partenaire.nom, Validators.required],
-      prenom: [this.partenaire.prenom, Validators.required],
       tel: [this.partenaire.tel, Validators.required],
       ville: [this.partenaire.ville, Validators.required],
 		});
@@ -58,9 +56,7 @@ export class PartenairesComponent implements OnInit  {
   submit() {
     let controls = this.partenaireForm.controls;
 
-    this.partenaire.code = controls.code.value;
     this.partenaire.nom = controls.nom.value;
-    this.partenaire.prenom = controls.prenom.value;
     this.partenaire.tel = controls.tel.value;
     this.partenaire.ville = controls.ville.value;
 
@@ -95,9 +91,7 @@ export class PartenairesComponent implements OnInit  {
   updatePartenaire() {
     let controls = this.partenaireForm.controls;
 
-    this.partenaire.code = controls.code.value;
     this.partenaire.nom = controls.nom.value;
-    this.partenaire.prenom = controls.prenom.value;
     this.partenaire.tel = controls.tel.value;
     this.partenaire.ville = controls.ville.value;
 

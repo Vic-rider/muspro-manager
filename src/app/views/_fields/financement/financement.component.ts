@@ -6,6 +6,8 @@ import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {map} from 'rxjs/operators'
 import Swal from 'sweetalert2'
+import { ProjectService } from './../../../core/services/project.service';
+import { Project } from './../../../core/models/project';
 
 @Component({
   selector: 'app-financement',
@@ -21,11 +23,13 @@ export class FinancementComponent implements OnInit {
   allFinancement: Array<Financement> = [];
   partenaire = new Partenaire();
   allPartenaire: Array<Partenaire> = [];
+  allProjects: Array<Project> = [];
 
   constructor(
     private financementService: FinancementService,
     private partenaireService: PartenaireService,
-    private fb: FormBuilder) { }
+    private fb: FormBuilder,
+    private projetService: ProjectService) { }
 
 
   ngOnInit(): void {
@@ -42,6 +46,16 @@ export class FinancementComponent implements OnInit {
       this._loader = false;
       this.allFinancement = financement;
       console.log(financement)
+    });
+
+    this.projetService.getProject().snapshotChanges().pipe(
+      map(changes =>
+        changes.map(c =>
+          ({ key: c.payload.doc.id, ...c.payload.doc.data() })
+        )
+      )
+    ).subscribe(projet => {
+      this.allProjects = projet;
     });
 
     //get partenaires
@@ -65,7 +79,7 @@ export class FinancementComponent implements OnInit {
 
   createForm() {
     this.financementForm = this.fb.group({
-      nom: [this.financement.nom, Validators.required],
+      projet: [this.financement.projet, Validators.required],
       montant: [null, Validators.required],
       date_financement: [null, Validators.required],
       id_partenaire: [null, Validators.required]
@@ -73,6 +87,7 @@ export class FinancementComponent implements OnInit {
 
 
     this.financementEditForm = this.fb.group({
+      projet: [this.financement.projet, Validators.required],
       editmontant: [null, Validators.required],
       editdate_financement: [null, Validators.required],
       editid_partenaire: [null, Validators.required],
@@ -136,7 +151,7 @@ export class FinancementComponent implements OnInit {
     }
 
     this.financementForm = this.fb.group({
-      nom: [controls.nom.value, Validators.required],
+      projet: [controls.projet.value, Validators.required],
       montant: [null, Validators.required],
       date_financement: [null, Validators.required],
       id_partenaire: [null, Validators.required],
@@ -147,7 +162,14 @@ export class FinancementComponent implements OnInit {
   submit() {
     let controls = this.financementForm.controls;
 
-    this.financement.nom = controls.nom.value;
+    console.log(controls)
+
+    for( const project of this.allProjects) {
+      if (project.key == controls.projet.value) {
+        this.financement.projet = project;
+      }
+    }
+
     this.financement.partenaires = this.addFinancement.partenaires;
 
     console.log(this.financement)
@@ -179,7 +201,7 @@ export class FinancementComponent implements OnInit {
     console.log(this.financement);
 
     this.financementForm = this.fb.group({
-      nom: [this.financement.nom, Validators.required],
+      projet: [this.financement.projet.key, Validators.required],
       montant: [null, Validators.required],
       date_financement: [null, Validators.required],
       id_partenaire: [null, Validators.required]
@@ -191,7 +213,12 @@ export class FinancementComponent implements OnInit {
   updateFinancement() {
     let controls = this.financementForm.controls;
 
-    this.financement.nom = controls.nom.value;
+    for( const project of this.allProjects) {
+      if (project.key ==controls.projet.value) {
+        this.financement.projet = project;
+      }
+    }
+    
     this.financement.partenaires = this.addFinancement.partenaires;
 
     console.log(this.financement)

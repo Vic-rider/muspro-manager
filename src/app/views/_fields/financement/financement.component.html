@@ -50,7 +50,7 @@
             <thead>
               <tr>
                 <!-- <th scope="col">Code</th> -->
-                <th scope="col">Nom Financement</th>
+                <th scope="col">Projet</th>
                 <th scope="col">Partenaire - Montant - Date de Financement</th>
                 <th scope="col">Action</th>
               </tr>
@@ -58,10 +58,10 @@
             <tbody>
               <tr *ngFor="let financement of allFinancement">
                 <!-- <td>{{financement.code}}</td> -->
-                <td>{{financement.nom}}</td>
+                <td>{{financement.projet.nom}}</td>
                 <td>
                   <p *ngFor="let partner of financement.partenaires">
-                    {{partner.partenaire.prenom}} {{partner.partenaire.nom}} -- {{partner.montant}} FCFA -- {{partner.date_financement | date}}
+                    {{partner.partenaire.nom}} -- {{partner.montant}} FCFA -- {{partner.date_financement | date}}
                   </p>
                 </td>
                 <td class="row" style="display: block;">
@@ -115,9 +115,11 @@
           </div>
           <div class="modal-body">
                  <div class="form-group">
-                   <label for="input-1">Nom</label>
+                   <label for="input-1">Projet</label>
                    <form [formGroup]="financementForm">
-                     <input formControlName="nom" type="text" class="form-control">
+                     <select formControlName="projet" class="form-control" id="input-1" name="" id="">
+                      <option *ngFor="let projet of allProjects" value="{{projet.key}}">{{projet.nom}}</option>
+                    </select>
                    </form>
                  </div>
 
@@ -136,11 +138,11 @@
                       <td *ngIf="financement.edit">
                         <form [formGroup]="financementEditForm">
                           <select formControlName="editid_partenaire" class="form-control" id="input-1" name="" id="">
-                            <option *ngFor="let patenaire of allPartenaire" value="{{patenaire.key}}">{{patenaire.nom}} {{patenaire.prenom}}</option>
+                            <option *ngFor="let patenaire of allPartenaire" value="{{patenaire.key}}">{{patenaire.nom}}</option>
                           </select>
                         </form>
                       </td>
-                      <td *ngIf="!financement.edit">{{financement.partenaire.prenom}} {{financement.partenaire.nom}}</td>
+                      <td *ngIf="!financement.edit">{{financement.partenaire.nom}}</td>
 
                       <td *ngIf="financement.edit">
                         <form [formGroup]="financementEditForm">
@@ -181,7 +183,7 @@
                     <div class="col-xl-4 form-group">
                       <label for="input-1">Partenaire</label>
                       <select formControlName="id_partenaire" class="form-control" id="input-1" name="" id="">
-                        <option *ngFor="let patenaire of allPartenaire" value="{{patenaire.key}}">{{patenaire.nom}} {{patenaire.prenom}}</option>
+                        <option *ngFor="let patenaire of allPartenaire" value="{{patenaire.key}}">{{patenaire.nom}}</option>
                       </select>
                     </div>
 
@@ -224,9 +226,11 @@
           </div>
           <div class="modal-body">
             <div class="form-group">
-              <label for="input-1">Nom</label>
+              <label for="input-1">Projet</label>
               <form [formGroup]="financementForm">
-                <input formControlName="nom" type="text" class="form-control">
+                <select disabled formControlName="projet" class="form-control" id="input-1" name="" id="">
+                  <option *ngFor="let projet of allProjects" value="{{projet.key}}">{{projet.nom}}</option>
+                </select>
               </form>
             </div>
 
@@ -245,11 +249,11 @@
                  <td *ngIf="financement.edit">
                    <form [formGroup]="financementEditForm">
                      <select formControlName="editid_partenaire" class="form-control" id="input-1" name="" id="">
-                       <option *ngFor="let patenaire of allPartenaire" value="{{patenaire.key}}">{{patenaire.nom}} {{patenaire.prenom}}</option>
+                       <option *ngFor="let patenaire of allPartenaire" value="{{patenaire.key}}">{{patenaire.nom}}</option>
                      </select>
                    </form>
                  </td>
-                 <td *ngIf="!financement.edit">{{financement.partenaire.prenom}} {{financement.partenaire.nom}}</td>
+                 <td *ngIf="!financement.edit">{{financement.partenaire.nom}}</td>
 
                  <td *ngIf="financement.edit">
                    <form [formGroup]="financementEditForm">
@@ -290,7 +294,7 @@
                <div class="col-xl-4 form-group">
                  <label for="input-1">Partenaire</label>
                  <select formControlName="id_partenaire" class="form-control" id="input-1" name="" id="">
-                   <option *ngFor="let patenaire of allPartenaire" value="{{patenaire.key}}">{{patenaire.nom}} {{patenaire.prenom}}</option>
+                   <option *ngFor="let patenaire of allPartenaire" value="{{patenaire.key}}">{{patenaire.nom}}</option>
                  </select>
                </div>
 
